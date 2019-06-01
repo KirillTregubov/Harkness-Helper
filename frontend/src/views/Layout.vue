@@ -14,7 +14,7 @@
     </ul>
   </nav>
   <section class="itemContent">
-    <h1>Selected Class</h1>
+    <Class :classId="selectedClass"/>
   </section>
 </body>
 </template>
@@ -22,13 +22,15 @@
 <script>
 import Api from '@/services/Api'
 import Header from '@/components/Header.vue'
+import Class from '@/components/Class.vue'
 
 export default {
   name: 'main-layout',
   data: function () {
     return {
       user: 'Test',
-      userObject: []
+      userObject: [],
+      selectedClass
     }
   },
   created () {
@@ -41,7 +43,8 @@ export default {
     }
   },
   components: {
-    Header
+    Header,
+    Class
   }
 }
 </script>
@@ -79,8 +82,10 @@ export default {
         margin-bottom: 5px;
         padding: 0.5rem 1.5rem;
         border-radius: var(--border-radius);
+
         &:hover {
           background-color: var(--neutral200);
+          border-radius: var(--shadow);
         }
 
         .primary {
