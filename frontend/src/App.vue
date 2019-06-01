@@ -72,6 +72,7 @@ nav ul {
 
   // Misc Layouts
   --border-radius: 0.5rem;
+  --shadow-inset: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
   --shadow: 0 1px 3px hsla(0, 0%, 0%, 0.2);
   --shadow-sm: 0 4px 6px hsla(0, 0%, 0%, 0.1);
   --shadow-md: 0 5px 15px hsla(0, 0%, 0%, 0.2);
