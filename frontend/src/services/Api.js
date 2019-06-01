@@ -17,29 +17,27 @@ export default {
             name: 'STUDENT MISSING (NO IMG)'
           }
           ],
-          stats: {
-            skills: [{
-              title: 'Textual references',
-              classScore: '4+',
-              kica: 'K'
-            },
-            {
-              title: 'Generates ideas',
-              classScore: '3',
-              kica: 'I'
-            },
-            {
-              title: 'Maintains engaged body language',
-              classScore: '2-',
-              kica: 'C'
-            },
-            {
-              title: 'Contributes cooperatively',
-              classScore: '3+',
-              kica: 'A'
-            }
-            ]
+          stats: [{
+            title: 'Textual references',
+            classScore: '4+',
+            kica: 'K'
           },
+          {
+            title: 'Generates ideas',
+            classScore: '3',
+            kica: 'I'
+          },
+          {
+            title: 'Maintains engaged body language',
+            classScore: '2-',
+            kica: 'C'
+          },
+          {
+            title: 'Contributes cooperatively',
+            classScore: '3+',
+            kica: 'A'
+          }
+          ],
           harkness: [{
             name: 'Harkness 1',
             date: 'June 27/23/2349'

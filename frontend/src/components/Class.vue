@@ -18,16 +18,22 @@
     </div>
     <div v-else>
       <h4>You have no previous Harkness tables for this class. Please create a new Harkness table above.</h4>
-      <!-- <Icon name="missing" height="50" width="20"/> -->
+      <Icon name="missing" size="0.4"/>
     </div>
-    <div id="classStats" v-if="selectedClass.stats.length > 0">
+    <div id="classStats" v-if="Object.keys(selectedClass.stats).length > 0">
       <table>
         <tr>
           <th>Skill</th>
           <th>Class Score</th>
+          <th>KICA</th>
+        </tr>
+        <tr :key="stat.id" v-for="stat in selectedClass.stats">
+          <td>{{ stat.title }}</td>
+          <td>{{ stat.classScore }}</td>
+          <td>{{ stat.kica }}</td>
         </tr>
       </table>
-      
+
     </div>
     <div v-else>
       <h4>You have no previous stats for this class. Please create a new Harkness table above to start tracking stats.</h4>
@@ -39,7 +45,7 @@
 </template>
 
 <script>
-// import Icon from '@/components/Icon.vue'
+import Icon from '@/components/Icon.vue'
 
 export default {
   name: 'class-view',
@@ -47,7 +53,7 @@ export default {
     selectedClass: Object
   },
   components: {
-    // Icon
+    Icon
   }
 }
 </script>
