@@ -4,10 +4,6 @@
 ```
 cd frontend
 npm install
-
-cd .. [change directory back to master]
-cd backend
-npm install
 ```
 
 ## Working with the frontend
