@@ -1,5 +1,5 @@
 <template>
-  <div id="classPage" v-if="Object.keys(selectedClass).length > 0">    
+  <div id="classPage" v-if="!selectedClass.isEmpty">    
     <div class="title">
       <h1>{{ selectedClass.name }} ({{ selectedClass.classCode }} {{ selectedClass.year }})</h1>
       <Icon name="icon-add-circle"/>
@@ -8,10 +8,10 @@
     <div class="details">
       <h3>Block {{ selectedClass.block }} | {{ selectedClass.students.length }} Students</h3>
     </div>
-    <div class="list" v-if="selectedClass.harkness.length > 0">
+    <div class="list" v-if="selectedClass.harknesses.length > 0">
       <h3>Previous Harkness Tables</h3>
       <ul>
-        <li :key="harkness.id" v-for="harkness in selectedClass.harkness">
+        <li v-for="harkness in selectedClass.harknesses">
           <div class="name">{{ harkness.name }}</div>
           <div class="date">{{ harkness.date }}</div>
         </li>
@@ -30,7 +30,7 @@
           <h4>KICA</h4>
         </div>
         <div class="content">
-          <div class="row" :key="stat.id" v-for="stat in selectedClass.stats">
+          <div class="row" v-for="stat in selectedClass.stats">
             <h4>{{ stat.title }}</h4>
             <h4>{{ stat.classScore }}</h4>
             <h4>{{ stat.kica }}</h4>

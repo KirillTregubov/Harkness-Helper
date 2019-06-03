@@ -1,14 +1,16 @@
 <template>
 <body id="fullLayout">
+  
   <header class="mainNav">
     <Header/>
   </header>
+  
   <nav class="itemNav">
     <ul>
       <li
         :key="item.id"
-        v-for="item in userObject.classes"
-        :class="selectedClass === userObject.classes.indexOf(item) ? 'active' : ''"
+        v-for="item in classes"
+        :class="selectedClass === item ? 'active' : ''"
         @click="selectItem(item)"
       >
         <a>
@@ -16,45 +18,52 @@
           <div class="secondary">{{item.classCode}}</div>
         </a>
       </li>
+      <li>
+        <button @click="logout">logout</button>
+      </li>
     </ul>
   </nav>
   <section class="itemContent">
     <Class
-      :selectedClass="selectedClass !== '' ? userObject.classes[selectedClass] : {}"
+      :selectedClass="selectedClass !== '' ? selectedClass : {isEmpty: true}"
     />
   </section>
 </body>
 </template>
 
 <script>
+import { db } from "@/firebase";
+import firebase from 'firebase';
 import Api from '@/services/Api'
 import Header from '@/components/TheHeader.vue'
 import Class from '@/components/Class.vue'
 
 export default {
-  name: 'main-layout',
-  data: function () {
+  name: "main-layout",
+  data: function() {
     return {
-      user: 'Test',
-      userObject: [],
-      selectedClass: '',
+      classes: [],
+      selectedClass: "",
       isUserNew: true
-    }
+    };
   },
-  mounted: function () {
-    this.fetchUser(this.user)
+  firebase() {
+    const uid = firebase.auth().currentUser.uid;
+    return {
+      classes: db
+        .ref("users")
+        .child(uid)
+        .child("classes")
+    };
   },
   methods: {
-    selectItem: function (item) {
-      this.selectedClass = this.userObject.classes.indexOf(item)
+    selectItem: function(item) {
+      this.selectedClass = item;
     },
-    async fetchUser (user) {
-      const response = await Api.fetchUser(user)
-      this.userObject = response.data
-      if (response.data.classes && response.data.classes.length > 0) {
-        this.isUserNew = false
-        this.selectedClass = 0
-      }
+    logout: function() {
+      firebase.auth().signOut().then(() => {
+        this.$router.replace('login')
+      })
     }
   },
   components: {
