@@ -16,10 +16,13 @@
           <div class="primary">{{item.name}}</div>
           <div class="secondary">{{item.classCode}}</div>
         </a>
+        <button @click="deleteClass(item)">Delete</button>
       </li>
       <li>
         <button @click="logout">logout</button>
-        <router-link to="/new/class"><button>Add Class</button></router-link>
+        <router-link to="/new/class">
+          <button>Add Class</button>
+        </router-link>
       </li>
     </ul>
   </nav>
@@ -36,54 +39,65 @@
 </template>
 
 <script>
-import { db } from '@/firebase'
-import firebase from 'firebase'
-import Api from '@/services/Api'
-import Header from '@/components/TheHeader.vue'
-import Class from '@/components/Class.vue'
+import firebase from "firebase";
+import { reference } from "@/firebase";
+import Api from "@/services/Api";
+import Header from "@/components/TheHeader.vue";
+import Class from "@/components/Class.vue";
 
 export default {
-  name: 'main-layout',
-  data: function () {
+  name: "main-layout",
+  data: function() {
     return {
       classes: [],
-      selectedClass: '',
+      selectedClass: "",
       isLoading: true
-    }
+    };
   },
-  mounted: function () {
-    const uid = firebase.auth().currentUser.uid
+  mounted: function() {
+    const uid = firebase.auth().currentUser.uid;
     firebase
       .database()
-      .ref('users')
+      .ref("users")
       .child(uid)
-      .child('classes')
-      .once('value', snapshot => {
-        this.isLoading = false
-        this.classes = snapshot.val()        
+      .child("classes")
+      .once("value", snapshot => {
+        this.isLoading = false;
+        this.classes = snapshot.val();
         if (Object.keys(this.classes).length > 0) {
-          this.selectedClass = this.classes[Object.keys(this.classes)[0]]
+          this.selectedClass = this.classes[Object.keys(this.classes)[0]];
         }
-      })
+      });
   },
   methods: {
-    selectItem: function (item) {
-      this.selectedClass = item
+    selectItem: function(item) {
+      this.selectedClass = item;
     },
-    logout: function () {
+    deleteClass: function(item) {
+      const uid = firebase.auth().currentUser.uid;
+      firebase
+        .database()
+        .ref("users")
+        .child(uid)
+        .child("classes")
+        .child(item.key)
+        .remove();
+        this.$router.go()
+    },
+    logout: function() {
       firebase
         .auth()
         .signOut()
         .then(() => {
-          this.$router.go('')
-        })
+          this.$router.go("");
+        });
     }
   },
   components: {
     Header,
     Class
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
