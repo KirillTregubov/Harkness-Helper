@@ -44,7 +44,7 @@ ol {
   margin: 0;
   padding: 0;
 }
-nav ul {
+ul {
   list-style: none;
   a {
     text-decoration: none;
@@ -92,6 +92,16 @@ nav ul {
 
 * {
   box-sizing: border-box;
+}
+
+svg {
+  .primary {
+    fill: var(--neutral200);
+  }
+
+  .secondary {
+    fill: var(--neutral700);
+  }
 }
 
 // #app {

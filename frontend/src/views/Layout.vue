@@ -20,7 +20,7 @@
   </nav>
   <section class="itemContent">
     <Class
-      :selectedClass="selectedClass !== '' ? userObject.classes[selectedClass] : { isEmpty: true }"
+      :selectedClass="selectedClass !== '' ? userObject.classes[selectedClass] : {}"
     />
   </section>
 </body>
@@ -28,7 +28,7 @@
 
 <script>
 import Api from '@/services/Api'
-import Header from '@/components/Header.vue'
+import Header from '@/components/TheHeader.vue'
 import Class from '@/components/Class.vue'
 
 export default {
@@ -120,12 +120,14 @@ export default {
   .itemContent {
     grid-area: content;
     @include pronounced-content();
+    max-height: 95vh;
+    overflow:auto;
     padding: 2rem;
     border-radius: var(--border-radius) 0 0 var(--border-radius);
   }
 }
 
-@include mq-max($width-m) {
+@include mq-max($width-md) {
   #fullLayout {
     grid-template-columns: 1fr;
     grid-template-rows: 5vh auto 1fr;

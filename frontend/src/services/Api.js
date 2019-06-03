@@ -40,11 +40,65 @@ export default {
           ],
           harkness: [{
             name: 'Harkness 1',
-            date: 'June 27/23/2349'
+            date: 'June 27',
+            stats: [{
+              title: 'Text references',
+              kica: 'K',
+              students: [{
+                studentId: '123',
+                score: '2-'
+              },
+              {
+                studentId: '456',
+                score: '3-'
+              }
+              ]
+            },
+            {
+              title: 'Body language',
+              kica: 'C',
+              students: [{
+                studentId: '139',
+                score: '4-'
+              },
+              {
+                studentId: '349',
+                score: '3+'
+              }
+              ]
+            }
+          ]
           },
           {
             name: 'Harkness 2',
-            date: 'June 27/23/5555'
+            date: 'June 23',
+            stats: [{
+              title: 'Text references',
+              kica: 'K',
+              students: [{
+                studentId: '483',
+                score: '2-'
+              },
+              {
+                studentId: '393',
+                score: '3-'
+              }
+              ]
+            },
+            {
+              title: 'Body language',
+              kica: 'C',
+              students: [{
+                studentId: '123',
+                score: '4-'
+              },
+              {
+                studentId: '456',
+                score: '3+'
+              }
+              ]
+            }
+          ]
           }
           ]
         },

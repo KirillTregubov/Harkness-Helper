@@ -1,10 +1,8 @@
-$width-m: 980px;
-
-// @media all and (max-width: 1690px) { ...}
-// @media all and (max-width: 1280px) { ...}
-// @media all and (max-width: 980px) { ... }
-// @media all and (max-width: 736px) { ... }
-// @media all and (max-width: 480px) { ... }
+$width-xl: 1690px;
+$width-lg: 1280px;
+$width-md: 980px;
+$width-sm: 736px;
+$width-xs: 480px;
 
 @mixin mq-min($width) {
     @media all and (min-width: $width) {

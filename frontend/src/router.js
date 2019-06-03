@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from './views/Layout.vue'
 import Focused from './views/Focused.vue'
+import Harkness from './components/Harkness.vue'
 
 Vue.use(Router)
 
@@ -18,6 +19,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Focused
+    },
+    {
+      path: '/harkness',
+      name: 'harkness',
+      component: Harkness
     }/*,
     {
       path: '/about',
