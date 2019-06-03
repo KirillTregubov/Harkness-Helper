@@ -19,6 +19,7 @@
       </li>
       <li>
         <button @click="logout">logout</button>
+        <router-link to="/new/class"><button>Add Class</button></router-link>
       </li>
     </ul>
   </nav>
@@ -64,22 +65,6 @@ export default {
           this.selectedClass = this.classes[Object.keys(this.classes)[0]]
         }
       })
-    /*
-    console.log(this.classes.length)
-    if (this.classes.length > 0) {
-      this.selectedClass = this.classes[0]
-      console.log('sec')
-    }
-    firebase () {
-    const uid = firebase.auth().currentUser.uid
-    return {
-      classes: db
-        .ref('users')
-        .child(uid)
-        .child('classes')
-    }
-  },
-    */
   },
   methods: {
     selectItem: function (item) {

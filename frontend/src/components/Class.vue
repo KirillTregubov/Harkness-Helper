@@ -2,13 +2,14 @@
   <div id="classPage" v-if="!selectedClass.isEmpty">
     <div class="title">
       <h1>{{ selectedClass.name }} ({{ selectedClass.classCode }} {{ selectedClass.year }})</h1>
-        <router-link :to="{name: 'addHarkness', params: { classKey: Object.keys(selectedClass)[0] } }"><Icon name="icon-add-circle"/></router-link>
+        <router-link :to="{name: 'addHarkness', params: { classKey: selectedClass.key } }"><Icon name="icon-add-circle"/></router-link>
         <router-link to="/new/harkness"><Icon name="icon-dots-vertical"/></router-link>
     </div>
     <div class="details">
-      <h3>Block {{ selectedClass.block }} | {{ selectedClass.students.length }} Students</h3>
+      <h3 v-if="selectedClass.students">Block {{ selectedClass.block }} | {{ selectedClass.students.length }} Students</h3>
+      <h3 v-else>Block {{ selectedClass.block }} | No Students</h3>
     </div>
-    <div class="list" v-if="selectedClass.harknesses.length > 0">
+    <div class="list" v-if="selectedClass.harknesses">
       <h3>Previous Harkness Tables</h3>
       <ul>
         <li v-for="harkness in selectedClass.harknesses">
@@ -37,22 +38,6 @@
           </div>
         </div>
       </div>
-      <!-- <table>
-        <thead>
-          <tr>
-            <th>Skill</th>
-            <th>Average Score</th>
-            <th>KICA</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr :key="stat.id" v-for="stat in selectedClass.stats">
-            <td>{{ stat.title }}</td>
-            <td>{{ stat.classScore }}</td>
-            <td>{{ stat.kica }}</td>
-          </tr>
-        </tbody>
-      </table>-->
     </div>
     <div class="empty" v-else>
       <h3>You have no previous stats for this class. Please create a new Harkness table above to start tracking stats.</h3>

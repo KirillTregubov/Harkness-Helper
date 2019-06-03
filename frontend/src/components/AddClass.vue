@@ -32,29 +32,22 @@ export default {
         courseCode: '',
         block: '',
         year: '',
-        studentsArray: []
+        studentsArray: new Array(0)
       },
     }
   },
   methods: {
     addClass: function () {
       const uid = firebase.auth().currentUser.uid
-      var newClassRef = firebase
-        .database()
-        .ref('users')
-        .child(uid)
-        .child('classes')
-        .push()
-      newClassRef.set({
+      const ref = firebase.database().ref('users').child(uid).child('classes')
+      const classKey = ref.push().getKey()
+      ref.child(classKey).set({
+        key: classKey,
         block: this.newClass.block,
         classCode: this.newClass.courseCode,
-        harknesses: [
-          {
-            date: '2/2/2222',
-            name: 'first harkness'
-          }
-        ],
+        harknesses: [],
         name: this.newClass.name,
+        harknesses: [],
         stats: [
           {
             classScore: 4,
@@ -67,17 +60,15 @@ export default {
             title: 'thinking'
           }
         ],
-        students: [
-          {
-            name: 'Alex Alexiev',
-            picture:
-              'https://edsbypublicca.blob.core.windows.net/cp1/b311a344685369f1b6b8db43c52127d77977'
-          }
-        ]
+        students: this.newClass.studentsArray
       })
+      this.$router.push('/dashboard')
     },
     addStudent: function () {
-      this.studentsArray.push('')
+      this.newClass.studentsArray.push({
+        "name": "alexiev",
+        "picture": "random url"
+      })
     }
   }
 }

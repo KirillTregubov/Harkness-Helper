@@ -38,7 +38,7 @@ const router = new Router({
       }
     },
     {
-      path: '/new',
+      path: '/new/class',
       name: 'addClass',
       component: AddClass,
       meta: {
