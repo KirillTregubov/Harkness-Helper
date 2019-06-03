@@ -1,10 +1,9 @@
 <template>
-<body id="fullLayout">
-  
+<body id="fullLayout" v-if="!isLoading">
   <header class="mainNav">
     <Header/>
   </header>
-  
+
   <nav class="itemNav">
     <ul>
       <li
@@ -23,47 +22,76 @@
       </li>
     </ul>
   </nav>
+
   <section class="itemContent">
-    <Class
-      :selectedClass="selectedClass !== '' ? selectedClass : {isEmpty: true}"
-    />
+    <Class :selectedClass="selectedClass !== '' ? selectedClass : {isEmpty: true}"/>
   </section>
+</body>
+<body id="loading" v-else>
+  <div class="loader">
+    <div></div>
+  </div>
 </body>
 </template>
 
 <script>
-import { db } from "@/firebase";
-import firebase from 'firebase';
+import { db } from '@/firebase'
+import firebase from 'firebase'
 import Api from '@/services/Api'
 import Header from '@/components/TheHeader.vue'
 import Class from '@/components/Class.vue'
 
 export default {
-  name: "main-layout",
-  data: function() {
+  name: 'main-layout',
+  data: function () {
     return {
       classes: [],
-      selectedClass: "",
-      isUserNew: true
-    };
+      selectedClass: '',
+      isLoading: true
+    }
   },
-  firebase() {
-    const uid = firebase.auth().currentUser.uid;
+  mounted: function () {
+    const uid = firebase.auth().currentUser.uid
+    firebase
+      .database()
+      .ref('users')
+      .child(uid)
+      .child('classes')
+      .once('value', snapshot => {
+        this.isLoading = false
+        this.classes = snapshot.val()        
+        if (Object.keys(this.classes).length > 0) {
+          this.selectedClass = this.classes[Object.keys(this.classes)[0]]
+        }
+      })
+    /*
+    console.log(this.classes.length)
+    if (this.classes.length > 0) {
+      this.selectedClass = this.classes[0]
+      console.log('sec')
+    }
+    firebase () {
+    const uid = firebase.auth().currentUser.uid
     return {
       classes: db
-        .ref("users")
+        .ref('users')
         .child(uid)
-        .child("classes")
-    };
+        .child('classes')
+    }
+  },
+    */
   },
   methods: {
-    selectItem: function(item) {
-      this.selectedClass = item;
+    selectItem: function (item) {
+      this.selectedClass = item
     },
-    logout: function() {
-      firebase.auth().signOut().then(() => {
-        this.$router.replace('login')
-      })
+    logout: function () {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.go('')
+        })
     }
   },
   components: {
@@ -81,8 +109,8 @@ export default {
   grid-template-columns: 300px 1fr;
   grid-template-rows: 5vh 1fr; // 10vh;
   grid-template-areas:
-    'header header'
-    'nav    content';
+    "header header"
+    "nav    content";
   margin: 0 auto;
 
   @mixin pronounced-content {
@@ -130,7 +158,7 @@ export default {
     grid-area: content;
     @include pronounced-content();
     max-height: 95vh;
-    overflow:auto;
+    overflow: auto;
     padding: 2rem;
     border-radius: var(--border-radius) 0 0 var(--border-radius);
   }
@@ -141,9 +169,9 @@ export default {
     grid-template-columns: 1fr;
     grid-template-rows: 5vh auto 1fr;
     grid-template-areas:
-      'header'
-      'nav'
-      'content';
+      "header"
+      "nav"
+      "content";
 
     .itemNav {
       padding: 1rem;

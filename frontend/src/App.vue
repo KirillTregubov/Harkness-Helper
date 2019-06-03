@@ -59,8 +59,8 @@ ul {
   @include coolNeutral;
 
   // Typography
-  --font-stack: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
-    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --font-light: 100;
   --font-normal: 400;
   --font-bold: 600;
@@ -80,8 +80,10 @@ ul {
   --shadow-xl: 0 15px 35px hsla(0, 0%, 0%, 0.2);
   --shadow-deep: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   --shadow-deep-sm: 0 3px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
-  --shadow-deep-md: 0 10px 20px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1);
-  --shadow-deep-lg: 0 15px 25px rgba(0, 0, 0, 0.15), 0 5px 10px rgba(0, 0, 0, 0.05);
+  --shadow-deep-md: 0 10px 20px rgba(0, 0, 0, 0.15),
+    0 3px 6px rgba(0, 0, 0, 0.1);
+  --shadow-deep-lg: 0 15px 25px rgba(0, 0, 0, 0.15),
+    0 5px 10px rgba(0, 0, 0, 0.05);
   --shadow-deep-xl: 0 20px 40px rgba(0, 0, 0, 0.2);
 
   // Set Defaults
@@ -101,6 +103,60 @@ svg {
 
   .secondary {
     fill: var(--neutral700);
+  }
+}
+
+a.button {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 14px;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  background: #fff;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #5778f3;
+    transform: translateY(-1px);
+    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+  }
+}
+
+#loading {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @keyframes loader {
+    to {
+      opacity: 0.1;
+      transform: translate3d(0, -16px, 0);
+    }
+  }
+
+  .loader {
+    > div,
+    &:before,
+    &:after {
+      content: " ";
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      background: var(--primary400);
+      border-radius: 50%;
+      animation: loader 0.6s infinite alternate;
+    }
+
+    > div {
+      margin: 0 5px;
+      animation-delay: 0.2s;
+    }
+
+    &:after {
+      animation-delay: 0.4s;
+    }
   }
 }
 

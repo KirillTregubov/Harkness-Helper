@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Layout from './views/Layout.vue'
-import Login from './views/Login.vue'
-import Signup from './views/Signup.vue'
+import Authentication from './views/Authentication.vue'
+// import Login from './views/Login.vue'
+// import Signup from './views/Signup.vue'
+import NotFound from './views/NotFound.vue'
 import Harkness from './components/Harkness.vue'
-import firebase from 'firebase'
+import AddClass from './components/AddClass.vue'
+import AddHarkness from './components/AddHarkness.vue'
+import firebase from 'firebase' // change
 
 Vue.use(Router)
 
@@ -13,7 +17,7 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/class',
+      path: '/dashboard',
       name: 'layout',
       component: Layout,
       meta: {
@@ -21,14 +25,9 @@ const router = new Router({
       }
     },
     {
-      path: '*',
-      name: 'login',
-      component: Login
-    },
-    {
-      path: '/signup',
-      name: 'signup',
-      component: Signup
+      path: '',
+      name: 'authentication',
+      component: Authentication
     },
     {
       path: '/harkness',
@@ -37,15 +36,37 @@ const router = new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/new',
+      name: 'addClass',
+      component: AddClass,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/new/harkness',
+      name: 'addHarkness',
+      component: AddHarkness,
+      props: true,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '*',
+      name: '404',
+      component: NotFound
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  const currentUser = firebase.auth().currentUser;
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  if (requiresAuth && !currentUser) next('login');
-  else next();
+  const currentUser = firebase.auth().currentUser
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  if (requiresAuth && !currentUser) next('')
+  else next()
 })
 
-export default router;
+export default router

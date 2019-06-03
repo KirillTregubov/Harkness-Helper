@@ -1,9 +1,9 @@
 <template>
-  <div id="classPage" v-if="!selectedClass.isEmpty">    
+  <div id="classPage" v-if="!selectedClass.isEmpty">
     <div class="title">
       <h1>{{ selectedClass.name }} ({{ selectedClass.classCode }} {{ selectedClass.year }})</h1>
-      <Icon name="icon-add-circle"/>
-      <Icon name="icon-dots-vertical"/>
+        <router-link :to="{name: 'addHarkness', params: { classKey: Object.keys(selectedClass)[0] } }"><Icon name="icon-add-circle"/></router-link>
+        <router-link to="/new/harkness"><Icon name="icon-dots-vertical"/></router-link>
     </div>
     <div class="details">
       <h3>Block {{ selectedClass.block }} | {{ selectedClass.students.length }} Students</h3>
@@ -117,9 +117,13 @@ export default {
     h1 {
       margin: 0 1rem 0 0;
     }
+    
+    a {
+      margin-left: 0.5rem;
+      display: flex;
+    }
 
     svg {
-      margin-left: 0.5rem;
       &.icon-add-circle {
         margin-bottom: 2px;
         width: 2rem;

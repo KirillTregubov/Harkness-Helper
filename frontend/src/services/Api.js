@@ -67,7 +67,7 @@ export default {
               }
               ]
             }
-          ]
+            ]
           },
           {
             name: 'Harkness 2',
@@ -98,7 +98,7 @@ export default {
               }
               ]
             }
-          ]
+            ]
           }
           ]
         },

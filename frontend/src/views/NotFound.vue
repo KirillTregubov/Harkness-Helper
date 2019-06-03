@@ -1,12 +1,17 @@
 <template>
   <body>
-    <section>LOGIN</section>
+    <section>404 ERROR</section>
   </body>
 </template>
 
 <script>
+import VueSVG from '@/components/VueSVG.vue'
+
 export default {
-  name: 'focused-layout'
+  name: 'not-found',
+  components: {
+    VueSVG
+  }
 }
 </script>
 

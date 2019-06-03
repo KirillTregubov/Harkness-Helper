@@ -1,0 +1,84 @@
+<template>
+<body>
+  <form>
+    <h1>Add a New Class</h1>
+    <p>Class name:</p>
+    <input v-model="newClass.name" type="text" name="className" placeholder="Computer Science" required>
+    <p>Course code:</p>
+    <input v-model="newClass.courseCode" type="text" name="courseCode" placeholder="ICS4U-A" required>
+    <p>Year:</p>
+    <p>
+      <input v-model="newClass.year" type="text" name="year" placeholder="2018-2019" required>
+    </p>
+    <p>Block:</p>
+    <input v-model="newClass.block" type="number" min="1" max="8" name="block" placeholder="2" required>
+    <p>Students (please enter names one per box): </p>
+    <div :key="student.id" v-for="student in newClass.studentsArray">
+      <input type="text" name="student" v-model="student.name" placeholder="Kevin DesLauriers">
+    </div>
+    <a class="button" @click="addStudent()">Add Student</a>
+  </form>
+  <button @click="addClass()">Submit</button>
+</body>
+</template>
+
+<script>
+import firebase from 'firebase'
+export default {
+  data: function () {
+    return {
+      newClass: {
+        name: '',
+        courseCode: '',
+        block: '',
+        year: '',
+        studentsArray: []
+      },
+    }
+  },
+  methods: {
+    addClass: function () {
+      const uid = firebase.auth().currentUser.uid
+      var newClassRef = firebase
+        .database()
+        .ref('users')
+        .child(uid)
+        .child('classes')
+        .push()
+      newClassRef.set({
+        block: this.newClass.block,
+        classCode: this.newClass.courseCode,
+        harknesses: [
+          {
+            date: '2/2/2222',
+            name: 'first harkness'
+          }
+        ],
+        name: this.newClass.name,
+        stats: [
+          {
+            classScore: 4,
+            kica: 'A',
+            title: 'knowledge'
+          },
+          {
+            classScore: 3,
+            kica: 'T',
+            title: 'thinking'
+          }
+        ],
+        students: [
+          {
+            name: 'Alex Alexiev',
+            picture:
+              'https://edsbypublicca.blob.core.windows.net/cp1/b311a344685369f1b6b8db43c52127d77977'
+          }
+        ]
+      })
+    },
+    addStudent: function () {
+      this.studentsArray.push('')
+    }
+  }
+}
+</script>

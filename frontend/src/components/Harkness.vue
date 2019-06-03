@@ -17,22 +17,22 @@
 <script>
 
 // FAKE DATA TO BE REPLACED LATER
-var fakeStudentName1 = "Char", fakeStudentName2 = "Alex", fakeStudentName3 = "Kirill";
+import VueSVG from '@/components/VueSVG.vue'
+import Icon from '@/components/Icon.vue'
 
-    import VueSVG from '@/components/VueSVG.vue'
-    import Icon from '@/components/Icon.vue'
+var fakeStudentName1 = 'Char'; var fakeStudentName2 = 'Alex'; var fakeStudentName3 = 'Kirill'
 
 export default {
   name: 'harkness-view',
-//   props: {
-//     selectedHarkness: Object
-//   },
+  //   props: {
+  //     selectedHarkness: Object
+  //   },
   components: {
     VueSVG,
     Icon
   }
 }
-
+/*
 var harknessTime;
 // import Icon from '@/components/Icon.vue'
 window.onload = function() {
@@ -64,9 +64,8 @@ function timer(){
         time++;
         document.getElementById("timer").innerText = ("0" + Math.trunc(time / 60)).slice(-2) +":" + ("0" + (time % 60)).slice(-2);
     }
-}
+} */
 </script>
-
 
 <style lang="scss" scoped>
     #box{
@@ -83,4 +82,3 @@ function timer(){
         }
     }
 </style>
-
