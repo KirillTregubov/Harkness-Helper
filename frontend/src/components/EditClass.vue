@@ -38,35 +38,34 @@
     </div>
     <a class="button" @click="addStudent()">Add Student</a>
   </form>
-  <button @click="addClass()">Submit</button>
+  <button @click="editClass()">Save Changes</button>
 </body>
 </template>
 
-
 <script>
 export default {
-  data: function() {
+  data: function () {
     return {
-      class: ""
-    };
+      class: ''
+    }
   },
   methods: {
-      addStudent: function () {
+    addStudent: function () {
       this.studentsArray.push('')
     }
   },
-  mounted: function() {
-    const uid = firebase.auth().currentUser.uid;
+  mounted: function () {
+    const uid = firebase.auth().currentUser.uid
     firebase
       .database()
-      .ref("users")
+      .ref('users')
       .child(uid)
-      .child("classes")
+      .child('classes')
       .child(selectedClass)
-      .once("value", snapshot => {
-        this.isLoading = false;
-        this.class = snapshot.val();
-      });
+      .once('value', snapshot => {
+        this.isLoading = false
+        this.class = snapshot.val()
+      })
     /*
     console.log(this.classes.length)
     if (this.classes.length > 0) {
@@ -80,10 +79,9 @@ export default {
         .ref('users')
         .child(uid)
         .child('classes')
-        
+
     }
     */
   }
-};
+}
 </script>
-

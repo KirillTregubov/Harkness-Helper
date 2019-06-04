@@ -33,7 +33,7 @@ export default {
         block: '',
         year: '',
         studentsArray: []
-      },
+      }
     }
   },
   methods: {
@@ -66,8 +66,8 @@ export default {
     },
     addStudent: function () {
       this.newClass.studentsArray.push({
-        "name": "student name",
-        "picture": "random url"
+        'name': 'student name',
+        'picture': 'random url'
       })
     }
   }

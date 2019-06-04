@@ -22,19 +22,19 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import firebase from 'firebase'
 
 export default {
-  data: function() {
+  data: function () {
     return {
       isLoading: false,
       harkness: {
-        name: "",
-        date: "",
-        key: "",
+        name: '',
+        date: '',
+        key: '',
         stats: []
       }
-    };
+    }
   },
   props: {
     classKey: {
@@ -43,21 +43,21 @@ export default {
     }
   },
   methods: {
-    addHarkness() {
-      const uid = firebase.auth().currentUser.uid;
+    addHarkness () {
+      const uid = firebase.auth().currentUser.uid
       const ref = firebase
         .database()
-        .ref("users")
+        .ref('users')
         .child(uid)
-        .child("classes")
+        .child('classes')
         .child(this.classKey)
-        .child("harknesses");
-      this.harkness.key = ref.push().getKey();
-      ref.child(this.harkness.key).set(this.harkness);
+        .child('harknesses')
+      this.harkness.key = ref.push().getKey()
+      ref.child(this.harkness.key).set(this.harkness)
     },
-    addStat() {
-      this.harkness.stats.push("");
+    addStat () {
+      this.harkness.stats.push('')
     }
   }
-};
+}
 </script>

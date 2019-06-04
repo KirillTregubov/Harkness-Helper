@@ -102,7 +102,7 @@ export default {
     h1 {
       margin: 0 1rem 0 0;
     }
-    
+
     a {
       margin-left: 0.5rem;
       display: flex;
