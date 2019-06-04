@@ -3,7 +3,13 @@
   <form>
     <h1>Add a New Harkness Table</h1>
     <p>Harkness name:</p>
-    <input type="text" v-model="harkness.name" name="harknessName" placeholder="Romeo and Juliet Harkness" required>
+    <input
+      type="text"
+      v-model="harkness.name"
+      name="harknessName"
+      placeholder="Romeo and Juliet Harkness"
+      required
+    >
     <p>Date:</p>
     <input type="date" v-model="harkness.date" name="harknessDate" required>
     <p>Please enter the skills you will be assessing, or add more:</p>
@@ -15,6 +21,15 @@
     </div>
     <a @click="addStat()">Add New Skill</a>
     <p>Please select any absent students:</p>
+    <div :key="student.id" v-for="student in students">
+      <span>
+        <input type="text" id="studentName" v-model="student.name" placeholder="Kevin DesLauriers">
+        <a @click="addAbsent()">Absent</a>
+      </span>
+    </div>
+    <!-- <a @click="addAbsent()">Add Absent Student</a>
+    <p>{{students}}</p>
+    <p>{{harkness.absentStudents}}</p> -->
   </form>
   <button @click="addHarkness()">Submit</button>
 </body>
@@ -22,19 +37,22 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase';
 
 export default {
-  data: function () {
+  data: function() {
     return {
+      absentStudents: [],
       isLoading: false,
+      students: [],
       harkness: {
         name: '',
         date: '',
         key: '',
+        students: [],
         stats: []
       }
-    }
+    };
   },
   props: {
     classKey: {
@@ -42,22 +60,54 @@ export default {
       default: null
     }
   },
+  mounted: function() {
+    const uid = firebase.auth().currentUser.uid;
+    firebase
+      .database()
+      .ref('users')
+      .child(uid)
+      .child('classes')
+      .child(this.classKey)
+      .child('students')
+      .once('value', snapshot => {
+        this.students = snapshot.val();
+      });
+  },
   methods: {
-    addHarkness () {
-      const uid = firebase.auth().currentUser.uid
+    removeAbsentStudents() {
+      harkness.students = students;
+      var index;
+      for(var i=0; i<absentStudents.length; i++){
+        var index = harkness.students.indexOf(absentStudents[i]);
+        harkness.students.splice(index);
+      }
+    },
+    addAbsent(){
+      absentStudents.push(document.getElementById('studentName').val);
+      console.log(absentStudents);
+    },
+    addHarkness() {
+      removeAbsentStudents();
+      const uid = firebase.auth().currentUser.uid;
       const ref = firebase
         .database()
         .ref('users')
         .child(uid)
         .child('classes')
         .child(this.classKey)
-        .child('harknesses')
-      this.harkness.key = ref.push().getKey()
-      ref.child(this.harkness.key).set(this.harkness)
+        .child('harknesses');
+      this.harkness.key = ref.push().getKey();
+      ref.child(this.harkness.key).set(this.harkness);
     },
-    addStat () {
-      this.harkness.stats.push('')
+    addAbsent() {
+      this.harkness.absentStudents.push('');
+    },
+    addStat() {
+      this.harkness.stats.push('');
+    },
+    addStat() {
+      this.harkness.stats.push('');
     }
   }
-}
+};
 </script>

@@ -1,14 +1,14 @@
 <template>
   <div class="login">
     <h3>Sign In</h3>
+    <label for="email">Email</label>
     <input type="email" name="email" v-model="email" placeholder="name@domain.com" required autocomplete="email">
-    <br>
+    <label for="password">Password</label>
     <input type="password" name="password" v-model="password" placeholder="password" required autocomplete="password">
-    <br>
-    <button @click="login">log in</button>
-    <span>
+    <a class="button primary" @click="login">Log In</a>
+    <div class="switch">
       <a @click="switchAuth">create account</a>
-    </span>
+    </div>
   </div>
 </template>
 
@@ -45,6 +45,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-</style>

@@ -26,47 +26,31 @@
 </body>
 </template>
 
-
 <script>
 export default {
-  data: function() {
+  data: function () {
     return {
-      class: ""
-    };
+      class: ''
+    }
   },
   methods: {
-      addStudent: function () {
-      this.studentsArray.push('')
+    addStudent: function () {
+      this.students.push('')
     }
   },
-  mounted: function() {
-    const uid = firebase.auth().currentUser.uid;
+  mounted: function () {
+    const uid = firebase.auth().currentUser.uid
     firebase
       .database()
-      .ref("users")
+      .ref('users')
       .child(uid)
-      .child("classes")
+      .child('classes')
       .child(selectedClass)
-      .once("value", snapshot => {
-        this.isLoading = false;
-        this.class = snapshot.val();
-      });
-    /*
-    console.log(this.classes.length)
-    if (this.classes.length > 0) {
-      this.selectedClass = this.classes[0]
-      console.log('sec')
-    }
-    firebase () {
-    const uid = firebase.auth().currentUser.uid
-    return {
-      classes: db
-        .ref('users')
-        .child(uid)
-        .child('classes')
-        
-    }
-    */
+      .child('students')
+      .once('value', snapshot => {
+        this.isLoading = false
+        this.students = snapshot.val()
+      })
   }
-};
+}
 </script>

@@ -1,14 +1,14 @@
 <template>
   <div class="sign-up">
-    <p>create a new account</p>
-    <input type="text" v-model="email" placeholder="Email">
-    <br>
-    <input type="text" v-model="password" placeholder="Password">
-    <br>
-    <button @click="signup">sign up</button>
-    <span>
-      <a @click="switchAuth">login</a>
-    </span>
+    <h3>Create a New Account</h3>
+    <label for="email">Email</label>
+    <input type="email" name="email" v-model="email" placeholder="name@domain.com" required autocomplete="email">
+    <label for="password">Password</label>
+    <input type="password" name="password" v-model="password" placeholder="password" required autocomplete="password">
+    <a class="button primary" @click="signup">Sign Up</a>
+    <div class="switch">
+      <a @click="switchAuth">log in</a>
+    </div>
   </div>
 </template>
 

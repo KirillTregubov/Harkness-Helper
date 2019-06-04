@@ -68,6 +68,7 @@ ul {
   --text-base: 1rem;
   --text-lg: 1.125rem;
   --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
   // --font-size-text
 
   // Misc Layouts
@@ -115,11 +116,13 @@ a.button {
   background: #fff;
   border-radius: 4px;
   transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
 
   &:hover {
     color: #5778f3;
-    transform: translateY(-1px);
-    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+    // transform: translateY(-1px);
+    // box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
   }
 }
 

@@ -7,25 +7,30 @@
     :height="height"
   >
     <Missing v-if="name === 'missing'" />
+    <PageNotFound v-if="name === 'page-not-found'" />
   </svg>
 </template>
 
 <script>
 import Missing from '@/assets/svgs/Missing.vue'
+import PageNotFound from '@/assets/svgs/PageNotFound.vue'
 
 export default {
   name: 'vue-svg',
   computed: {
     viewbox: function () {
       if (this.name === 'missing') return '0 0 1009.54 789.93'
+      else if (this.name === 'page-not-found') return '0 0 1074.392 584.231'
       else return '0 0 0 0'
     },
     width: function () {
       if (this.name === 'missing') return this.size * 1009.54 + 'px'
+      else if (this.name === 'page-not-found') return this.size * 1074.392 + 'px'
       else return '0px'
     },
     height: function () {
       if (this.name === 'missing') return this.size * 789.93 + 'px'
+      else if (this.name === 'page-not-found') return this.size * 584.231 + 'px'
       else return '0px'
     }
   },
@@ -40,7 +45,8 @@ export default {
     }
   },
   components: {
-    Missing
+    Missing,
+    PageNotFound
   }
 }
 </script>

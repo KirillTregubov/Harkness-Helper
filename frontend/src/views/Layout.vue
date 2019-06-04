@@ -160,6 +160,9 @@ export default {
     overflow: auto;
     padding: 2rem;
     border-radius: var(--border-radius) 0 0 var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 

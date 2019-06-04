@@ -1,0 +1,54 @@
+<html>
+    <head>
+      <title>Water Popup</title>
+    </head>
+    <body>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                color: hsl(184, 91%, 17%);
+                background-color: hsl(214, 15%, 91%);
+                min-width: 350px;
+                min-height: 250px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .container {
+                background-color: hsl(216, 33%, 97%);
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
+                border-radius: 0.5rem;
+                padding: 2rem;
+                margin: 1rem;
+                width: 80vw;
+            }
+
+            .container * {
+                display: block;
+            }
+
+            h2 {
+                font-size: 1rem;
+            }
+        </style>
+        <div class="container">
+            <img src='./images/logo_128.png' id='hydrateImage' width="75">
+            <h1>Edsby Scraper</h1>
+            <h2>By the Project Harkness Team</h2>
+            <p id="status"></p>
+            <button class="btn btn-primary" id="changelinks">Change</button>
+
+        </div>
+        
+        <!-- <button id='sampleSecond' value='0.1'>Sample Second</button>
+        <button id='15min' value='15'>15 Minutes</button>
+        <button id='30min' value='30'>30 Minutes</button>
+        <button id='cancelAlarm'>Cancel Alarm</button> -->
+        <script src="scripts/jquery.min.js" type="text/javascript"></script>
+        <script src="scripts/extension.js" type="text/javascript"></script>
+    </body>
+  </html>
