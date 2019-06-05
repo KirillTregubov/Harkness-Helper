@@ -2,7 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import { rtdbPlugin } from 'vuefire'
-import firebase from 'firebase' // change
+import firebase from 'firebase' 
+import {db} from '@/firebase'
 
 Vue.config.productionTip = false
 
