@@ -1,26 +1,29 @@
 <template>
   <div id="classPage" v-if="!selectedClass.isEmpty">
     <div class="title">
-      <h1>{{ selectedClass.name }} ({{ selectedClass.classCode }} {{ selectedClass.year }})</h1>
-        <router-link :to="{name: 'addHarkness', params: { classKey: selectedClass.key } }"><Icon name="icon-add-circle"/></router-link>
-        <router-link to="/new/harkness"><Icon name="icon-dots-vertical"/></router-link>
+      <h1>{{ selectedClass.name }}</h1>
+        <router-link :to="{name: 'add-harkness', params: { classKey: selectedClass.key } }"><Icon name="icon-add-circle"/></router-link>
+        <router-link :to="{name: 'edit-class', params: { classKey: selectedClass.key } }"><Icon name="icon-dots-vertical"/></router-link>
+        <!-- <router-link to="/new/harkness"><Icon name="icon-dots-vertical"/></router-link> -->
     </div>
     <div class="details">
-      <h3 v-if="selectedClass.students">Block {{ selectedClass.block }} | {{ selectedClass.students.length }} Students</h3>
-      <h3 v-else>Block {{ selectedClass.block }} | No Students</h3>
+      <h3>{{ selectedClass.classCode }} | {{ selectedClass.year }} Year |<span v-if="selectedClass.block"> Block {{ selectedClass.block }}</span><span v-if="selectedClass.students"> | {{ selectedClass.students.length }} Students</span><span v-else> | No Students</span></h3>
     </div>
     <div class="list" v-if="selectedClass.harknesses">
       <h3>Previous Harkness Tables</h3>
       <ul>
-        <li :key="harkness.id"  v-for="harkness in selectedClass.harknesses">
-          <div class="name">{{ harkness.name }}</div>
-          <div class="date">{{ harkness.date }}</div>
-        </li>
+          <li :key="harkness.id"  v-for="harkness in selectedClass.harknesses">
+            <!-- harkness key or id -->
+            <router-link :to="{name: 'view-harkness', params: { harknessKey: harkness.key } }">
+              <h4 class="name">{{ harkness.name }}</h4>
+              <h4 class="date">{{ harkness.date }}</h4>
+            </router-link>
+          </li>
       </ul>
     </div>
     <div class="empty" v-else>
-      <h3>You have no previous Harkness tables for this class. Please create a new Harkness table above.</h3>
-      <VueSVG name="missing" size="0.4"/>
+      <h3>There are no recorded Harkness tables in this class. Create one to get started.</h3>
+      <VueSVG name="missing" size="0.35"/>
     </div>
     <div class="stats" v-if="Object.keys(selectedClass.stats).length > 0">
       <h3>Statistics Overview</h3>
@@ -50,8 +53,8 @@
 </template>
 
 <script>
-import VueSVG from '@/components/VueSVG.vue'
-import Icon from '@/components/Icon.vue'
+import VueSVG from '@/components/Iconography/VueSVG.vue'
+import Icon from '@/components/Iconography/Icon.vue'
 
 export default {
   name: 'class-view',
@@ -70,13 +73,14 @@ export default {
   background-color: var(--neutral050);
   box-shadow: var(--shadow-deep-sm);
   border-radius: var(--border-radius);
+  max-width: $width-sm;
   width: 100%;
   padding: 2rem;
   margin-bottom: 1rem;
 
   h3 {
     margin-top: 0;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     font-size: var(--text-lg);
   }
 }
@@ -85,32 +89,31 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 
-  // &.empty {
-  //   h3 {
-  //     @include container();
-  //   }
-  // }
+  .empty {
+    @include container();
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
   .title {
     font-size: var(--text-xl);
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: center;
 
     h1 {
       margin: 0 1rem 0 0;
     }
 
     a {
-      margin-left: 0.5rem;
+      margin: 0.25rem 0 0 0.5rem;
       display: flex;
     }
 
     svg {
       &.icon-add-circle {
-        margin-bottom: 2px;
         width: 2rem;
         height: 2rem;
       }
@@ -118,7 +121,6 @@ export default {
       &.icon-dots-vertical {
         width: 1.75rem;
         height: 1.75rem;
-        margin-bottom: 4px;
       }
     }
   }
@@ -129,27 +131,38 @@ export default {
 
   .list {
     @include container();
-    max-width: $width-xs;
 
     ul {
       li {
-        display: flex;
-        justify-content: space-between;
-
-        .name {
-          font-weight: var(--font-bold);
+        padding: 0.5rem;
+        &:hover {
+          background-color: var(--neutral200);
+          border-radius: var(--border-radius);
         }
-      }
 
-      :not(:last-child) {
-        margin-bottom: 10px;
+        &:not(:last-child) {
+          margin-bottom: 0.5rem;
+        }
+
+        a {
+          display: flex;
+          justify-content: space-between;
+
+          h4 {
+            font-weight: var(--font-normal);
+            margin: 0;
+
+            &.name {
+              font-weight: var(--font-bold);
+            }
+          }
+        }
       }
     }
   }
 
   .stats {
     @include container();
-    max-width: $width-sm;
     text-align: left;
 
     .table {
@@ -169,6 +182,11 @@ export default {
         grid-gap: 0.5rem;
         grid-template-columns: 2fr 1fr 0.5fr;
         grid-template-rows: 1fr;
+
+        h4 {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
 
       .head {
@@ -176,6 +194,14 @@ export default {
         letter-spacing: 2px;
         background-color: var(--neutral100);
       }
+    }
+  }
+}
+
+@include mq-max($width-sm) {
+  #classPage {
+    .title {
+      align-items: center;
     }
   }
 }

@@ -2,8 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import { rtdbPlugin } from 'vuefire'
-import firebase from 'firebase' 
-import {db} from '@/firebase'
+import firebase from 'firebase'
+import { db } from '@/firebase' // eslint-disable-line no-unused-vars
 
 Vue.config.productionTip = false
 

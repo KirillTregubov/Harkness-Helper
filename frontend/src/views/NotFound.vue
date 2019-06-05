@@ -4,7 +4,7 @@
       <h1 class="title">Oops! Looks like you tried to go somewhere that doesn't exist...</h1>
       <div class="buttons">
         <router-link class="button" to="/dashboard">Go Home</router-link>
-        <a class="button" @click="goBack()">Go Back</a>
+        <!-- <a class="button" @click="goBack()">Go Back</a> -->
       </div>
       <VueSVG name="page-not-found" size="0.4"/>
     </section>
@@ -12,15 +12,16 @@
 </template>
 
 <script>
-import VueSVG from '@/components/VueSVG.vue'
+import VueSVG from '@/components/Iconography/VueSVG.vue'
 
 export default {
   name: 'not-found',
-  methods: {
-    goBack () {
-      window.history.back()
-    }
-  },
+  // methods: {
+  //   goBack () {
+  //     window.history.back()
+  //     window.history.back()
+  //   }
+  // },
   components: {
     VueSVG
   }

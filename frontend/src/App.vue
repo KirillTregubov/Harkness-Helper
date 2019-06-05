@@ -89,6 +89,7 @@ ul {
 
 * {
   box-sizing: border-box;
+  transition: all 0.25s ease-in-out;
 }
 
 svg {
@@ -155,6 +156,15 @@ a.button {
       animation-delay: 0.4s;
     }
   }
+}
+
+body.focused {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  
 }
 
 // #app {

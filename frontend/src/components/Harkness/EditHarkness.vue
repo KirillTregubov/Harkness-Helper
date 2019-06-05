@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+
 export default {
   data: function () {
     return {
@@ -45,7 +47,7 @@ export default {
       .ref('users')
       .child(uid)
       .child('classes')
-      .child(selectedClass)
+      .child(this.selectedClass) // Vue says this is undefined
       .child('students')
       .once('value', snapshot => {
         this.isLoading = false

@@ -4,32 +4,32 @@
     <h1>Edit Your Class</h1>
     <p>Class name:</p>
     <input
-      v-model="class.name"
+      v-model="selectedClass.name"
       type="text"
       name="className"
-      v-bind="class.name"
+      v-bind="selectedClass.name"
       required
     >
     <p>Course code:</p>
     <input
-      v-model="class.courseCode"
+      v-model="selectedClass.courseCode"
       type="text"
       name="courseCode"
-      v-bind="class.courseCode"
+      v-bind="selectedClass.courseCode"
       required
     >
     <p>Year:</p>
     <p>
-      <input v-model="class.year" type="text" name="year" v-bind="class.year" required>
+      <input v-model="selectedClass.year" type="text" name="year" v-bind="selectedClass.year" required>
     </p>
     <p>Block:</p>
     <input
-      v-model="class.block"
+      v-model="selectedClass.block"
       type="number"
       min="1"
       max="8"
       name="block"
-      v-bind="class.block"
+      v-bind="selectedClass.block"
       required
     >
     <p>Students (please enter names one per box):</p>
@@ -43,15 +43,23 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+
 export default {
   data: function () {
     return {
-      class: ''
+      selectedClass: ''
     }
   },
   methods: {
     addStudent: function () {
       this.studentsArray.push('')
+    }
+  },
+  props: {
+    classKey: {
+      type: String,
+      default: null
     }
   },
   mounted: function () {
@@ -61,10 +69,10 @@ export default {
       .ref('users')
       .child(uid)
       .child('classes')
-      .child(selectedClass)
+      .child(this.selectedClass) // Vue says this is undefined
       .once('value', snapshot => {
         this.isLoading = false
-        this.class = snapshot.val()
+        this.selectedClass = snapshot.val()
       })
     /*
     console.log(this.classes.length)

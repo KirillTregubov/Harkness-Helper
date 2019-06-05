@@ -16,7 +16,7 @@
 
 <script>
 // import VueSVG from '@/components/VueSVG.vue'
-import Icon from '@/components/Icon.vue'
+import Icon from '@/components/Iconography/Icon.vue'
 
 export default {
   name: 'harkness-view',

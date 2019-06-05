@@ -24,7 +24,7 @@
     <div :key="student.id" v-for="student in students">
       <span>
         <input type="text" id="studentName" v-model="student.name" placeholder="Kevin DesLauriers">
-        <a @click="addAbsent()">Absent</a>
+        <button @click="addAbsent()">Absent</button>
       </span>
     </div>
     <!-- <a @click="addAbsent()">Add Absent Student</a>
@@ -83,7 +83,7 @@ export default {
       }
     },
     addAbsent () {
-      this.absentStudents.push(document.getElementById('studentName').val)
+      this.absentStudents.push(document.getElementById('studentName').value)
       console.log(this.absentStudents)
     },
     addHarkness () {
@@ -98,6 +98,7 @@ export default {
         .child('harknesses')
       this.harkness.key = ref.push().getKey()
       ref.child(this.harkness.key).set(this.harkness)
+      // this.$router.push('/assess') NEEDS TO LINK TO PAGE TO START ASSESSING HARKNESS
     },
     addStat () {
       this.harkness.stats.push('')

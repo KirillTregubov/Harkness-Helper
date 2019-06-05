@@ -1,13 +1,13 @@
 <template>
-  <div class="login">
-    <h3>Sign In</h3>
+  <div class="sign-up">
+    <h3>Create a New Account</h3>
     <label for="email">Email</label>
     <input type="email" name="email" v-model="email" placeholder="name@domain.com" required autocomplete="email">
     <label for="password">Password</label>
     <input type="password" name="password" v-model="password" placeholder="password" required autocomplete="password">
-    <a class="button primary" @click="login">Log In</a>
+    <a class="button primary" @click="signup">Sign Up</a>
     <div class="switch">
-      <a @click="switchAuth">Create Account</a>
+      <a @click="switchAuth">sign in</a>
     </div>
   </div>
 </template>
@@ -16,7 +16,7 @@
 import firebase from 'firebase'
 
 export default {
-  name: 'login',
+  name: 'signup',
   data () {
     return {
       email: '',
@@ -25,20 +25,18 @@ export default {
   },
   methods: {
     switchAuth () {
-      this.$emit('switched', '')
+      this.$emit('switched', 'login')
     },
-    login () {
-      // error track
-
+    signup () {
       firebase
         .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
+        .createUserWithEmailAndPassword(this.email, this.password)
         .then(
-          (user) => {
-            this.$router.replace('dashboard')
+          function (user) {
+            alert('your account has been created')
           },
-          (err) => {
-            alert("it didn't work" + err.message)
+          function (err) {
+            alert('did not work' + err.message)
           }
         )
     }

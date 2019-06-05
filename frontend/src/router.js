@@ -4,9 +4,10 @@ import Layout from './views/Layout.vue'
 import Authentication from './views/Authentication.vue'
 import NotFound from './views/NotFound.vue'
 // change
-import Harkness from './components/Harkness.vue'
-import AddClass from './components/AddClass.vue'
-import AddHarkness from './components/AddHarkness.vue'
+import Harkness from './components/Harkness/Harkness.vue'
+import AddHarkness from './components/Harkness/AddHarkness.vue'
+import AddClass from './components/Class/AddClass.vue'
+import EditClass from './components/Class/EditClass.vue'
 import firebase from 'firebase' // change
 
 Vue.use(Router)
@@ -16,6 +17,11 @@ const router = new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '',
+      name: 'authentication',
+      component: Authentication
+    },
+    {
       path: '/dashboard',
       name: 'layout',
       component: Layout,
@@ -24,21 +30,17 @@ const router = new Router({
       }
     },
     {
-      path: '',
-      name: 'authentication',
-      component: Authentication
-    },
-    {
-      path: '/harkness',
-      name: 'harkness',
+      path: '/view/harkness',
+      name: 'view-harkness',
       component: Harkness,
+      props: true,
       meta: {
         requiresAuth: true
       }
     },
     {
       path: '/new/class',
-      name: 'addClass',
+      name: 'add-class',
       component: AddClass,
       meta: {
         requiresAuth: true
@@ -46,13 +48,31 @@ const router = new Router({
     },
     {
       path: '/new/harkness',
-      name: 'addHarkness',
+      name: 'add-harkness',
       component: AddHarkness,
       props: true,
       meta: {
         requiresAuth: true
       }
     },
+    {
+      path: '/edit/class',
+      name: 'edit-class',
+      component: EditClass,
+      props: true,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    // {
+    //   path: '/new/harkness',
+    //   name: 'edit-harkness',
+    //   component: AddHarkness,
+    //   props: true,
+    //   meta: {
+    //     requiresAuth: true
+    //   }
+    // },
     {
       path: '*',
       name: '404',
@@ -64,8 +84,22 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const currentUser = firebase.auth().currentUser
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  if (requiresAuth && !currentUser) next('')
-  else next()
+  console.log(to.path)
+  if (requiresAuth && currentUser) {
+    console.log('logged in');
+    next()
+  } else if (currentUser && to.path === "/") {
+    console.log('logged in trying to login');
+    next('dashboard')
+  } else if (!currentUser) {
+    console.log('need to log in')
+    if (to.path !== '/') next('')
+    else next()
+  } else {
+    console.log('404')
+    if (to.path !== '/*') next('*')
+    else next()
+  }
 })
 
 export default router

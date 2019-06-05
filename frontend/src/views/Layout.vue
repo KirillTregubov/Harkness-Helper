@@ -41,8 +41,8 @@
 <script>
 import firebase from 'firebase'
 // import { reference } from '@/firebase'
-import Header from '@/components/TheHeader.vue'
-import Class from '@/components/Class.vue'
+import Header from '@/components/General/TheHeader.vue'
+import Class from '@/components/Class/Class.vue'
 
 export default {
   name: 'main-layout',
@@ -63,7 +63,7 @@ export default {
       .once('value', snapshot => {
         this.isLoading = false
         this.classes = snapshot.val()
-        if (Object.keys(this.classes).length > 0) {
+        if (this.classes) {
           this.selectedClass = this.classes[Object.keys(this.classes)[0]]
         }
       })
@@ -160,7 +160,6 @@ export default {
     padding: 2rem;
     border-radius: var(--border-radius) 0 0 var(--border-radius);
     display: flex;
-    align-items: center;
     justify-content: center;
   }
 }
