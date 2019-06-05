@@ -1,0 +1,122 @@
+<html>
+    <head>
+      <title>Water Popup</title>
+    </head>
+    <body>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                color: hsl(184, 91%, 17%);
+                background-color: hsl(214, 15%, 91%);
+                min-width: 350px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .container {
+                background-color: hsl(216, 33%, 97%);
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
+                border-radius: 0.5rem;
+                padding: 2rem;
+                margin: 1rem;
+                width: 80vw;
+            }
+
+            .container * {
+                display: block;
+            }
+
+            a.button {
+                display: inline-block;
+                height: 40px;
+                line-height: 40px;
+                padding: 0 14px;
+                box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+                background: #fff;
+                border-radius: 4px;
+                transition: all 0.3s ease;
+                text-decoration: none;
+                color: inherit;
+                cursor: pointer;
+            }
+
+            a.button:hover {
+                color: #5778f3;
+            }
+
+            h2 {
+                font-size: 1rem;
+            }
+
+            #output {
+                display: none;
+            }
+
+            #output.visible {
+                display: initial;
+            }
+
+            #input.invisible {
+                display: none;
+            }
+
+            #output h2 {
+                /* margin-top: 2rem; */
+                margin-bottom: 0;
+                display: inline-block;
+            }
+
+            #output a {
+                margin-left: 1em;
+                display: inline-block;
+                height: 30px;
+                line-height: 30px;
+                padding: 0 8px;
+            }
+
+            pre {
+                margin-bottom: 0;
+                white-space: normal;
+            }
+
+            pre code {
+                background: #f4f4f4;
+                border: 1px solid #ddd;
+                border-left: 3px solid #f36d33;
+                color: #666;
+                page-break-inside: avoid;
+                font-family: monospace;
+                font-size: 15px;
+                line-height: 1.6;
+                max-width: 100%;
+                overflow: auto;
+                padding: 1em 1.5em;
+                display: block;
+                word-wrap: break-word;
+            }
+        </style>
+        <div class="container">
+            <img src='./images/logo_128.png' id='hydrateImage' width="75">
+            <h1>Edsby Scraper</h1>
+            <h2>By the Project Harkness Team</h2>
+            <div id="input">
+                <p id="status">Waiting for user input...</p>
+                <a class="button" id="extensionButton">Fetch Data</a>
+                <p>To use this tool, navigate to a supported school Edsby Class page, then click the button above.</p> 
+            </div>
+            <div id="output">
+                <h2>Output</h2>
+                <a class="button" id="copy">Copy to Clipboard</a>
+                <pre>
+                    <code id="outputCode"></code>
+                </pre>
+            </div>
+        </div>
+    
+        <script src="scripts/jquery.min.js" type="text/javascript"></script>
+        <script src="scripts/extension.js" type="text/javascript"></script>
+    </body>
+  </html>

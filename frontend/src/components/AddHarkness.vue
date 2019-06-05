@@ -104,9 +104,6 @@ export default {
     },
     addStat() {
       this.harkness.stats.push('');
-    },
-    addStat() {
-      this.harkness.stats.push('');
     }
   }
 };

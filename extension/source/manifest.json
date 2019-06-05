@@ -1,8 +1,10 @@
 {
-    "manifest_version": 2,
-    "name": "Edsby Scraper for Project Harkness",
-    "description": "Scrapes Edsby for Class Info",
+    "name": "Project Harkness Edsby Tool",
+    "short_name": "Harkness Tool",
+    "description": "A tool used to fetch data from Edsby Class pages of schools supported by the Project Harkness service.",
+    "author": "Project Harkness Team",
     "version": "1.0",
+    "manifest_version": 2,
     "permissions": [
         "declarativeContent"
     ],
@@ -13,9 +15,9 @@
         "128": "images/logo_128.png"
     },
     "content_scripts": [{
-        "matches": ["<all_urls>"],
+        "matches": ["http://bayviewglen.edsby.com/*"],
         "all_frames": true,
-        "js":      [ "scripts/jquery.min.js", "content.js" ]
+        "js":      [ "scripts/jquery.min.js", "scripts/content.js" ]
     }],
     "page_action": {
         "default_icon": {
@@ -29,7 +31,7 @@
     },
     "background": {
         "scripts": [
-            "background.js"
+            "scripts/background.js"
         ],
         "persistent": false
     }

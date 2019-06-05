@@ -7,7 +7,7 @@
     <input type="password" name="password" v-model="password" placeholder="password" required autocomplete="password">
     <a class="button primary" @click="login">Log In</a>
     <div class="switch">
-      <a @click="switchAuth">create account</a>
+      <a @click="switchAuth">Create Account</a>
     </div>
   </div>
 </template>
