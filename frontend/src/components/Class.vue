@@ -12,7 +12,7 @@
     <div class="list" v-if="selectedClass.harknesses">
       <h3>Previous Harkness Tables</h3>
       <ul>
-        <li v-for="harkness in selectedClass.harknesses">
+        <li :key="harkness.id"  v-for="harkness in selectedClass.harknesses">
           <div class="name">{{ harkness.name }}</div>
           <div class="date">{{ harkness.date }}</div>
         </li>
@@ -31,7 +31,7 @@
           <h4>KICA</h4>
         </div>
         <div class="content">
-          <div class="row" v-for="stat in selectedClass.stats">
+          <div class="row" :key="stat.id" v-for="stat in selectedClass.stats">
             <h4>{{ stat.title }}</h4>
             <h4>{{ stat.classScore }}</h4>
             <h4>{{ stat.kica }}</h4>

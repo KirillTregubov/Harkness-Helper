@@ -17,8 +17,8 @@ import VueSVG from '@/components/VueSVG.vue'
 export default {
   name: 'not-found',
   methods: {
-    goBack() {
-      window.history.back();
+    goBack () {
+      window.history.back()
     }
   },
   components: {
@@ -88,7 +88,7 @@ export default {
 
         > * {
           margin: 1rem 0;
-          
+
           &:last-child{
             margin-top: 0;
           }

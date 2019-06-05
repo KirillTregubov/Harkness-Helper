@@ -6,7 +6,6 @@
           <img class="logo" src="@/assets/images/logo.png" alt="Project Harkness Logo">
           <h1 class="name">Project Harkness</h1>
         </div>
-        
         <h2 class="subtitle">A web tool used to track harkness tables, designed with high school teachers in mind.</h2>
       </div>
       <div class="container">
@@ -124,10 +123,5 @@ export default {
     }
   }
 }
-
-// .small-block-layout {
-//   // small center block (login)
-//   margin: 20vh 20vw;
-// }
 
 </style>

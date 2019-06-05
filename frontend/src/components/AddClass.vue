@@ -43,10 +43,9 @@ export default {
       const classKey = ref.push().getKey()
       ref.child(classKey).set({
         key: classKey,
-        block: this.newClass.block,
-        classCode: this.newClass.courseCode,
-        harknesses: [],
         name: this.newClass.name,
+        classCode: this.newClass.courseCode,
+        block: this.newClass.block,
         harknesses: [],
         stats: [
           {

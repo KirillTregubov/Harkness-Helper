@@ -15,12 +15,8 @@
 </template>
 
 <script>
-
-// FAKE DATA TO BE REPLACED LATER
-import VueSVG from '@/components/VueSVG.vue'
+// import VueSVG from '@/components/VueSVG.vue'
 import Icon from '@/components/Icon.vue'
-
-var fakeStudentName1 = 'Char'; var fakeStudentName2 = 'Alex'; var fakeStudentName3 = 'Kirill'
 
 export default {
   name: 'harkness-view',
@@ -28,7 +24,7 @@ export default {
   //     selectedHarkness: Object
   //   },
   components: {
-    VueSVG,
+    // VueSVG,
     Icon
   }
 }

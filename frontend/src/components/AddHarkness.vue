@@ -37,10 +37,10 @@
 </template>
 
 <script>
-import firebase from 'firebase';
+import firebase from 'firebase'
 
 export default {
-  data: function() {
+  data: function () {
     return {
       absentStudents: [],
       isLoading: false,
@@ -52,7 +52,7 @@ export default {
         students: [],
         stats: []
       }
-    };
+    }
   },
   props: {
     classKey: {
@@ -60,8 +60,8 @@ export default {
       default: null
     }
   },
-  mounted: function() {
-    const uid = firebase.auth().currentUser.uid;
+  mounted: function () {
+    const uid = firebase.auth().currentUser.uid
     firebase
       .database()
       .ref('users')
@@ -70,41 +70,38 @@ export default {
       .child(this.classKey)
       .child('students')
       .once('value', snapshot => {
-        this.students = snapshot.val();
-      });
+        this.students = snapshot.val()
+      })
   },
   methods: {
-    removeAbsentStudents() {
-      harkness.students = students;
-      var index;
-      for(var i=0; i<absentStudents.length; i++){
-        var index = harkness.students.indexOf(absentStudents[i]);
-        harkness.students.splice(index);
+    removeAbsentStudents () {
+      this.harkness.students = this.students
+      var index
+      for (var i = 0; i < this.absentStudents.length; i++) {
+        index = this.harkness.students.indexOf(this.absentStudents[i])
+        this.harkness.students.splice(index)
       }
     },
-    addAbsent(){
-      absentStudents.push(document.getElementById('studentName').val);
-      console.log(absentStudents);
+    addAbsent () {
+      this.absentStudents.push(document.getElementById('studentName').val)
+      console.log(this.absentStudents)
     },
-    addHarkness() {
-      removeAbsentStudents();
-      const uid = firebase.auth().currentUser.uid;
+    addHarkness () {
+      // removeAbsentStudents()
+      const uid = firebase.auth().currentUser.uid
       const ref = firebase
         .database()
         .ref('users')
         .child(uid)
         .child('classes')
         .child(this.classKey)
-        .child('harknesses');
-      this.harkness.key = ref.push().getKey();
-      ref.child(this.harkness.key).set(this.harkness);
+        .child('harknesses')
+      this.harkness.key = ref.push().getKey()
+      ref.child(this.harkness.key).set(this.harkness)
     },
-    addAbsent() {
-      this.harkness.absentStudents.push('');
-    },
-    addStat() {
-      this.harkness.stats.push('');
+    addStat () {
+      this.harkness.stats.push('')
     }
   }
-};
+}
 </script>

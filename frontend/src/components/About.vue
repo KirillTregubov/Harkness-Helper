@@ -17,13 +17,13 @@
 
 <script>
 export default {
-    data: function () {
+  data: function () {
     return {
       schoolsArray: ['Bayview Glen Independent School']
     }
-  },
-    // methods: {
+  }
+  // methods: {
 
-    // }
+  // }
 }
 </script>

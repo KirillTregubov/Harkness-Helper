@@ -40,8 +40,7 @@
 
 <script>
 import firebase from 'firebase'
-import { reference } from '@/firebase'
-import Api from '@/services/Api'
+// import { reference } from '@/firebase'
 import Header from '@/components/TheHeader.vue'
 import Class from '@/components/Class.vue'
 
