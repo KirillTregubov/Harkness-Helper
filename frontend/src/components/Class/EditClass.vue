@@ -27,8 +27,8 @@
       <div class="iconBeside" :key="student.id" v-for="student in selectedClass.students">
         <input type="text" name="student" v-model="student.name">
         <!-- prohibit deleting last student : validation -->
-        <a @click="removeStudent(newClass.students.indexOf(student))"><Icon name="icon-remove-circle" size="2" /></a>
-        <a @click="addStudent(newClass.students.indexOf(student))"><Icon name="icon-add-circle" size="2" /></a>
+        <a @click="removeStudent(selectedClass.students.indexOf(student))"><Icon name="icon-remove-circle" size="2" /></a>
+        <a @click="addStudent(selectedClass.students.indexOf(student))"><Icon name="icon-add-circle" size="2" /></a>
       </div>
       <a class="button primary" @click="saveChanges()">Save Changes</a>
       <button type="button destructive" @click="deleteClass()">Delete Class</button>

@@ -56,8 +56,8 @@ export default {
     })
   },
   props: {
-    // classKey:
-    // harknessKey:
+    classKey: '',
+    harknessKey:''
   },
   components: {
     // VueSVG,

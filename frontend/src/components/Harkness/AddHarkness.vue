@@ -74,9 +74,19 @@ export default {
     fb.getStudents(this.classKey, snapshot => {
       this.isLoading = false
       this.students = snapshot.val()
+      this.getDate()
     })
   },
   methods: {
+    getDate(){
+      let today = new Date()
+      var dd = today.getDate();
+      if (dd < 10) dd = "0"+ dd
+      var mm = today.getMonth()+1; 
+      if (mm < 10) mm = "0"+ mm
+      var yyyy = today.getFullYear();
+      this.harkness.date = yyyy+'-'+mm+'-'+dd
+    },
     removeAbsentStudents () {
       this.harkness.students = this.students
       for (let i = 0; i < this.absentStudents.length; i++) {
