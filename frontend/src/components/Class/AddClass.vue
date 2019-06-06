@@ -2,7 +2,14 @@
 <body class="focused">
   <section class="container">
     <form>
-      <h1>Create a Class</h1>
+      <div class="title">
+        <div class="back" @click="goBack()">
+          <Icon name="icon-cheveron-left-circle" size="1.6" />
+          <h2>Go Back</h2>
+        </div>
+        <h1>Create a Class</h1>
+      </div>
+
       <label for="className">Class Name</label>
       <input type="text" name="className" v-model="newClass.name" placeholder="Computer Science">
 
@@ -23,7 +30,7 @@
         <a @click="removeStudent(newClass.students.indexOf(student))"><Icon name="icon-remove-circle" size="2" /></a>
         <a @click="addStudent(newClass.students.indexOf(student))"><Icon name="icon-add-circle" size="2" /></a>
       </div>
-      
+
       <a class="button primary" @click="createClass()">Create</a>
     </form>
   </section>
@@ -31,8 +38,8 @@
 </template>
 
 <script>
-import firebase from 'firebase'
 import Icon from '@/components/Iconography/Icon.vue'
+import fb from '@/firebase'
 
 export default {
   name: 'AddClass',
@@ -43,31 +50,25 @@ export default {
         courseCode: '',
         block: '',
         year: '',
-        students: [{name: ''}]
+        students: [{ name: '' }]
       }
     }
   },
   methods: {
     createClass () {
-      const uid = firebase.auth().currentUser.uid
-      const ref = firebase.database().ref('users').child(uid).child('classes')
-      const classKey = ref.push().getKey()
-      ref.child(classKey).set({
-        key: classKey,
-        name: this.newClass.name,
-        classCode: this.newClass.courseCode,
-        block: this.newClass.block,
-        students: this.newClass.students
-      })
+      fb.newClass(this.newClass)
       this.$router.push('/dashboard')
     },
     addStudent (val) {
-      this.newClass.students.splice( val + 1, 0, {
+      this.newClass.students.splice(val + 1, 0, {
         'name': ''
       })
     },
     removeStudent (val) {
       this.newClass.students.splice(val, 1)
+    },
+    goBack () {
+      window.history.back()
     }
   },
   components: {

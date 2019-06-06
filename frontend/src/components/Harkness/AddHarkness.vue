@@ -1,9 +1,15 @@
 <template>
-<body class="focused">
+<body class="focused" v-if="!isLoading">
   <section class="container">
     <form>
-      <h1>Create a Harkness Table</h1>
-      
+      <div class="title">
+        <div class="back" @click="goBack()">
+          <Icon name="icon-cheveron-left-circle" size="1.6" />
+          <h2>Go Back</h2>
+        </div>
+        <h1>Create a Harkness Table</h1>
+      </div>
+
       <label for="harknessName">Harkness Name</label>
       <input type="text" name="harknessName" v-model="harkness.name" placeholder="An Original Harkness Title">
 
@@ -29,11 +35,16 @@
     </form>
   </section>
 </body>
+<body id="loading" v-else>
+  <div class="loader">
+    <div></div>
+  </div>
+</body>
 </template>
 
 <script>
-import firebase from "firebase";
-import fb from "@/firebase";
+// import firebase from 'firebase'
+import fb from '@/firebase'
 import Icon from '@/components/Iconography/Icon.vue'
 
 export default {
@@ -41,16 +52,16 @@ export default {
   data () {
     return {
       absentStudents: [],
-      isLoading: false,
       students: [],
       harkness: {
-        name: "",
-        date: "",
-        key: "",
+        name: '',
+        date: '',
+        key: '',
         students: [],
         stats: []
-      }
-    };
+      },
+      isLoading: true
+    }
   },
   props: {
     classKey: {
@@ -59,36 +70,41 @@ export default {
     }
   },
   mounted () {
+    if (!this.classKey) this.$router.push('/*')
     fb.getStudents(this.classKey, snapshot => {
-      this.students = snapshot.val();
-    });
+      this.isLoading = false
+      this.students = snapshot.val()
+    })
   },
   methods: {
     removeAbsentStudents () {
-      this.harkness.students = this.students;
+      this.harkness.students = this.students
       for (let i = 0; i < this.absentStudents.length; i++) {
-        let index = this.harkness.students.indexOf(this.absentStudents[i]);
+        let index = this.harkness.students.indexOf(this.absentStudents[i])
         if (index > -1) {
-          this.harkness.students.splice(index, 1);
+          this.harkness.students.splice(index, 1)
         }
       }
     },
     addAbsent (student) {
-      this.absentStudents.push(student);
-      console.log(this.absentStudents);
+      this.absentStudents.push(student)
+      console.log(this.absentStudents)
     },
     createHarkness () {
-      this.removeAbsentStudents();
-      console.log(this.harkness.students);
-      fb.newHarkness(this.classKey, this.harkness);
-      this.$router.push({name: "view-harkness", params:{classKey: this.classKey, harknessKey: this.harkness.key}})
+      this.removeAbsentStudents()
+      console.log(this.harkness.students)
+      fb.newHarkness(this.classKey, this.harkness)
+      this.$router.push({ name: 'view-harkness', params: { classKey: this.classKey, harknessKey: this.harkness.key } })
     },
     addStat () {
-      this.harkness.stats.push("");
+      this.harkness.stats.push('')
+    },
+    goBack () {
+      window.history.back()
     }
   },
   components: {
     Icon
   }
-};
+}
 </script>

@@ -11,7 +11,15 @@ const firebaseApp = firebase.initializeApp({
 })
 
 export default {
-  addStudentComment: function(classKey, harknessKey, studentId, comment) {
+  getUserData (callback) {
+    const uid = firebase.auth().currentUser.uid
+    firebase
+      .database()
+      .ref('users')
+      .child(uid)
+      .once('value', callback)
+  },
+  updateHarknessStudents (classKey, harknessKey, newStudents) {
     const uid = firebase.auth().currentUser.uid
     firebase
       .database()
@@ -19,14 +27,33 @@ export default {
       .child(uid)
       .child('classes')
       .child(classKey)
-      .child("harknesses")
+      .child('harknesses')
       .child(harknessKey)
-      .child("students")
+      .child('students')
+      .set(newStudents)
+  },
+  addUser (uid, userData) {
+    firebase.database().ref('users').child(uid).set(userData)
+  },
+  getSchools (callback) {
+    firebase.database().ref('schools').once('value', callback)
+  },
+  addStudentComment (classKey, harknessKey, studentId, comment) {
+    const uid = firebase.auth().currentUser.uid
+    firebase
+      .database()
+      .ref('users')
+      .child(uid)
+      .child('classes')
+      .child(classKey)
+      .child('harknesses')
+      .child(harknessKey)
+      .child('students')
       .child(studentId)
-      .child("comments")
+      .child('comments')
       .push(comment)
   },
-  deleteHarkness: function (classKey, harknessKey) {
+  deleteHarkness (classKey, harknessKey) {
     const uid = firebase.auth().currentUser.uid
     firebase
       .database()
@@ -34,33 +61,62 @@ export default {
       .child(uid)
       .child('classes')
       .child(classKey)
-      .child("harknesses")
+      .child('harknesses')
       .child(harknessKey)
       .remove()
   },
-  getHarkness: function (classKey, harknessKey, callback){
-    const uid = firebase.auth().currentUser.uid;
+  getHarkness (classKey, harknessKey, callback) {
+    const uid = firebase.auth().currentUser.uid
     firebase
       .database()
-      .ref("users")
+      .ref('users')
       .child(uid)
-      .child("classes")
+      .child('classes')
       .child(classKey)
-      .child("harknesses")
+      .child('harknesses')
       .child(harknessKey)
-      .once("value", callback);
+      .once('value', callback)
   },
-  getClass: function (classKey, callback){
-    const uid = firebase.auth().currentUser.uid;
+  newClass (newClass) {
+    const uid = firebase.auth().currentUser.uid
+    const ref = firebase.database().ref('users').child(uid).child('classes')
+    const classKey = ref.push().getKey()
+    newClass.key = classKey
+    ref.child(classKey).set(newClass)
+  },
+  updateClass (classKey, newClass) {
+    const uid = firebase.auth().currentUser.uid
     firebase
       .database()
-      .ref("users")
+      .ref('users')
       .child(uid)
-      .child("classes")
+      .child('classes')
       .child(classKey)
-      .once("value", callback);
+      .set(newClass)
   },
-  deleteClass: function (classKey) {
+  updateHarkness (classKey, harknessKey, newHarkness) {
+    const uid = firebase.auth().currentUser.uid
+    firebase
+      .database()
+      .ref('users')
+      .child(uid)
+      .child('classes')
+      .child(classKey)
+      .child('harknesses')
+      .child(harknessKey)
+      .set(newHarkness)
+  },
+  getClass (classKey, callback) {
+    const uid = firebase.auth().currentUser.uid
+    firebase
+      .database()
+      .ref('users')
+      .child(uid)
+      .child('classes')
+      .child(classKey)
+      .once('value', callback)
+  },
+  deleteClass (classKey) {
     const uid = firebase.auth().currentUser.uid
     firebase
       .database()
@@ -70,7 +126,7 @@ export default {
       .child(classKey)
       .remove()
   },
-  getClasses: function (callback) {
+  getClasses (callback) {
     const uid = firebase.auth().currentUser.uid
     firebase
       .database()
@@ -79,7 +135,7 @@ export default {
       .child('classes')
       .once('value', callback)
   },
-  getStudents: function (classKey, callback) {
+  getStudents (classKey, callback) {
     const uid = firebase.auth().currentUser.uid
     firebase
       .database()
@@ -90,7 +146,7 @@ export default {
       .child('students')
       .once('value', callback)
   },
-  newHarkness: function (classKey, harkness) {
+  newHarkness (classKey, harkness) {
     const uid = firebase.auth().currentUser.uid
     const ref = firebase
       .database()
@@ -101,5 +157,13 @@ export default {
       .child('harknesses')
     harkness.key = ref.push().getKey()
     ref.child(harkness.key).set(harkness)
+  },
+  logout () {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.$router.go('')
+      })
   }
 }

@@ -26,21 +26,16 @@
       <h3>There are no recorded Harkness tables in this class. Create one to get started.</h3>
       <VueSVG name="missing" size="0.35"/>
     </div>
-    <div class="stats" v-if="selectedClass.stats">
-      <h3>Statistics Overview</h3>
-      <div class="table">
-        <div class="head">
-          <h4>Skill</h4>
-          <h4>Average Score</h4>
-          <h4>KICA</h4>
-        </div>
-        <div class="content">
-          <div class="row" :key="stat.id" v-for="stat in selectedClass.stats">
-            <h4>{{ stat.title }}</h4>
-            <h4>{{ stat.classScore }}</h4>
-            <h4>{{ stat.kica }}</h4>
-          </div>
-        </div>
+    <div class="stats" v-if="selectedClass.harknesses">
+      <div id="averageKICA">
+        <span>K: {{KICAavg.K}}</span>
+        <span>I: {{KICAavg.I}}</span>
+        <span>C: {{KICAavg.C}}</span>
+        <span>A: {{KICAavg.A}}</span>
+
+      </div>
+      <div id="randomComments">
+        <!-- <p> Mahrh.random(comments0) </p> -->
       </div>
     </div>
     <div class="empty" v-else>
@@ -56,18 +51,37 @@
 <script>
 import VueSVG from '@/components/Iconography/VueSVG.vue'
 import Icon from '@/components/Iconography/Icon.vue'
-import fb from "@/firebase"
+import fb from '@/firebase'
 
 export default {
+  data () {
+    return {
+      KICAavg: ''
+    }
+  },
   name: 'class-view',
   props: {
     selectedClass: Object
   },
   methods: {
-    removeHarkness: function(harknessKey) {
-      fb.deleteHarkness(this.selectedClass.key, harknessKey);
-      this.$router.go();
+    removeHarkness: function (harknessKey) {
+      fb.deleteHarkness(this.selectedClass.key, harknessKey)
+      this.$router.go()
+    },
+    computeKICAavg () {
+      let KICAsum = { 'K': 0, 'I': 0, 'C': 0, 'A': 0 }
+      let KICAcounter = { 'K': 0, 'I': 0, 'C': 0, 'A': 0 }
+
+      // for loops are done normally, not this way
+      // for (harknessTable in this.selectedClass.harknesses) {
+      //   for (student in harknessTable.students) {
+      //     console.log(student)
+      //   }
+      // }
     }
+  },
+  mounted () {
+    if (this.selectedClass.harknesses) this.computeKICAavg()
   },
   components: {
     VueSVG,

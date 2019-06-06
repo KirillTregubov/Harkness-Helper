@@ -12,6 +12,7 @@
     "firebase": "^6.1.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
+    "vue-single-select": "^1.0.29",
     "vuefire": "^2.0.0"
   },
   "devDependencies": {

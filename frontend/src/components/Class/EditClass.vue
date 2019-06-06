@@ -1,15 +1,21 @@
 <template>
-<body class="focused">
+<body class="focused" v-if="!isLoading">
   <section class="container">
     <form>
-      <h1>Edit a Class</h1>
+      <div class="title">
+        <div class="back" @click="goBack()">
+          <Icon name="icon-cheveron-left-circle" size="1.6" />
+          <h2>Go Back</h2>
+        </div>
+        <h1>Edit a Class</h1>
+      </div>
 
       <label for="className">Class Name</label>
       <input type="text" name="className" v-model="selectedClass.name">
-      
+
       <label for="courseCode">Course Code</label>
       <input type="text" name="courseCode" v-model="selectedClass.courseCode">
-      
+
       <label for="year">Academic Year</label>
       <input type="text" name="year" v-model="selectedClass.year">
 
@@ -24,23 +30,29 @@
         <a @click="removeStudent(newClass.students.indexOf(student))"><Icon name="icon-remove-circle" size="2" /></a>
         <a @click="addStudent(newClass.students.indexOf(student))"><Icon name="icon-add-circle" size="2" /></a>
       </div>
-      <a class="button primary" @click="editClass()">Save Changes</a>
+      <a class="button primary" @click="saveChanges()">Save Changes</a>
       <button type="button destructive" @click="deleteClass()">Delete Class</button>
     </form>
   </section>
 </body>
+<body id="loading" v-else>
+  <div class="loader">
+    <div></div>
+  </div>
+</body>
 </template>
 
 <script>
-import fb from "@/firebase";
+import fb from '@/firebase'
 import Icon from '@/components/Iconography/Icon.vue'
 
 export default {
   name: 'EditClass',
   data () {
     return {
-      selectedClass: ""
-    };
+      selectedClass: '',
+      isLoading: true
+    }
   },
   props: {
     classKey: {
@@ -49,11 +61,14 @@ export default {
     }
   },
   methods: {
+    saveChanges () {
+      fb.updateClass(this.classKey, this.selectedClass)
+    },
     /*
     validation
     */
     addStudent (val) {
-      this.selectedClass.students.splice( val + 1, 0, {
+      this.selectedClass.students.splice(val + 1, 0, {
         'name': ''
       })
     },
@@ -61,18 +76,23 @@ export default {
       this.selectedClass.students.splice(val, 1)
     },
     deleteClass () {
-      fb.deleteClass(this.classKey);
-      this.$router.push({name: "layout"});
+      fb.deleteClass(this.classKey)
+      this.$router.push({ name: 'layout' })
+    },
+    goBack () {
+      window.history.back()
     }
   },
   mounted () {
+    if (!this.classKey) this.$router.push('/*')
+
     fb.getClass(this.classKey, snapshot => {
-        this.isLoading = false;
-        this.selectedClass = snapshot.val();
-      });
+      this.isLoading = false
+      this.selectedClass = snapshot.val()
+    })
   },
   components: {
     Icon
   }
-};
+}
 </script>

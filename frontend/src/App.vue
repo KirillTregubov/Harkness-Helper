@@ -60,6 +60,7 @@ ul {
   --font-bold: 600;
   --font-black: 800;
   --text-base: 1rem;
+  --text-sm: 0.85rem;
   --text-md: 1rem;
   --text-lg: 1.25rem;
   --text-xl: 1.5rem;
@@ -87,9 +88,9 @@ ul {
   background-color: var(--neutral100);
 }
 
-* {
+body > * {
   box-sizing: border-box;
-  transition: all 0.25s ease-in-out, width 0, height 0;
+  transition: all 0.3s ease-in-out, width 0, height 0;
 }
 
 svg {
@@ -184,10 +185,47 @@ body.focused {
     margin-bottom: 1rem;
     overflow: auto;
 
-    h1 {
-      margin-top: 0;
+    .title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       margin-bottom: 1rem;
-      font-size: var(--text-2xl);
+
+      .back {
+        display: flex;
+        align-items: center;
+        padding: 0.2rem 0.35rem 0.3rem 0.25rem;
+        border-radius: var(--border-radius);
+        user-select: none;
+
+        &:hover {
+          background-color: var(--neutral200);
+          box-shadow: var(--shadow-inset);
+        }
+
+        svg {
+          margin: .125em 0.25rem 0 0;
+
+          .primary {
+            fill: var(--neutral300);
+          }
+
+          .secondary {
+            fill: var(--neutral900);
+          }
+        }
+
+        h2 {
+          margin: 0;
+          font-size: var(--text-lg);
+          font-weight: var(--font-bold);
+        }
+      }
+
+      h1 {
+        margin: 0;
+        font-size: var(--text-2xl);
+      }
     }
 
     label {
@@ -219,12 +257,13 @@ body.focused {
       padding: 0.5rem;
       width: 100%;
       outline: none;
-      margin-bottom: 1.5em;
+      margin-bottom: 1em;
       line-height: 20px;
       transition: all ease 0.5s;
+      font-size: var(--text-md);
 
       &:hover {
-        background-color: var(--neutral100);
+        background-color: var(--neutral100) !important;
       }
     }
 
@@ -242,7 +281,7 @@ body.focused {
         display: inline-block;
       }
     }
-    
+
   }
 }
 

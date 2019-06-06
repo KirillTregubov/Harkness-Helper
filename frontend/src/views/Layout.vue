@@ -12,19 +12,21 @@
         :class="selectedClass === item ? 'active' : ''"
         @click="selectItem(item)"
       >
-          <Icon name="icon-user-group"/>
+          <Icon name="icon-user-group" size="2"/>
           <div class="titles">
             <div class="primary">{{item.name}}</div>
             <div class="secondary">{{item.classCode}}</div>
           </div>
         <button @click="deleteClass(item)">Delete</button>
       </li>
-      <li>
-        <button @click="logout">logout</button>
-        <router-link to="/new/class">
-          <button>Add Class</button>
-        </router-link>
-      </li>
+      <router-link to="/new/class">
+        <li>
+          <Icon name="icon-add-circle" size="2"/>
+          <div class="titles">
+            <div class="primary">Create Class</div>
+          </div>
+        </li>
+      </router-link>
     </ul>
   </nav>
 
@@ -40,45 +42,36 @@
 </template>
 
 <script>
-import firebase from 'firebase'
 import fb from '@/firebase'
-import Header from '@/components/General/TheHeader.vue'
+import Header from '@/components/General/Header.vue'
 import Class from '@/components/Class/Class.vue'
 import Icon from '@/components/Iconography/Icon.vue'
 
 export default {
   name: 'main-layout',
-  data: function () {
+  data () {
     return {
       classes: [],
       selectedClass: '',
       isLoading: true
     }
   },
-  mounted: function () {
+  mounted () {
     fb.getClasses(snapshot => {
-        this.isLoading = false
-        this.classes = snapshot.val()
-        if (this.classes) {
-          this.selectedClass = this.classes[Object.keys(this.classes)[0]]
-        }
-      })
+      this.isLoading = false
+      this.classes = snapshot.val()
+      if (this.classes) {
+        this.selectedClass = this.classes[Object.keys(this.classes)[0]]
+      }
+    })
   },
   methods: {
-    selectItem: function (item) {
+    selectItem (item) {
       this.selectedClass = item
     },
-    deleteClass: function (item) {
+    deleteClass (item) {
       fb.deleteClass(item.key)
       this.$router.go()
-    },
-    logout: function () {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$router.go('')
-        })
     }
   },
   components: {
@@ -89,7 +82,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #fullLayout {
   display: grid;
   height: 100vh;
@@ -120,8 +113,11 @@ export default {
     ul {
       li {
         margin-bottom: 5px;
-        padding: 0.5rem 1.5rem;
+        padding: 0.5rem 1rem;
         border-radius: var(--border-radius);
+        display: flex;
+        align-items: center;
+        user-select: none;
 
         &:hover {
           background-color: var(--neutral200);
@@ -135,6 +131,15 @@ export default {
 
         svg {
           display: inline-block;
+          margin-right: 0.5rem;
+
+          .primary {
+            fill: var(--neutral300);
+          }
+
+          .secondary {
+            fill: var(--neutral900);
+          }
         }
 
         .titles {
@@ -178,7 +183,7 @@ export default {
       ul {
         display: flex;
         flex-wrap: wrap;
-        // justify-content: space-between;
+        justify-content: center;
 
         li {
           margin-bottom: 0;
@@ -195,13 +200,15 @@ export default {
             box-shadow: var(--shadow-inset);
           }
 
-          .primary {
-            display: none;
-          }
-          .secondary {
-            font-weight: var(--font-bold);
-            font-size: var(--text-lg);
-            color: inherit;
+          .titles {
+            .primary {
+              font-weight: var(--font-bold);
+              font-size: var(--text-lg);
+              color: inherit;
+            }
+            .secondary {
+              display: none;
+            }
           }
         }
       }

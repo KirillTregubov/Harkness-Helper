@@ -6,6 +6,7 @@ import NotFound from './views/NotFound.vue'
 // change
 import Harkness from './components/Harkness/Harkness.vue'
 import AddHarkness from './components/Harkness/AddHarkness.vue'
+import EditHarkness from './components/Harkness/EditHarkness.vue'
 import AddClass from './components/Class/AddClass.vue'
 import EditClass from './components/Class/EditClass.vue'
 import firebase from 'firebase' // change
@@ -64,15 +65,15 @@ const router = new Router({
         requiresAuth: true
       }
     },
-    // {
-    //   path: '/new/harkness',
-    //   name: 'edit-harkness',
-    //   component: AddHarkness,
-    //   props: true,
-    //   meta: {
-    //     requiresAuth: true
-    //   }
-    // },
+    {
+      path: '/edit/harkness',
+      name: 'edit-harkness',
+      component: EditHarkness,
+      props: true,
+      meta: {
+        requiresAuth: true
+      }
+    },
     {
       path: '*',
       name: '404',

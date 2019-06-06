@@ -1,12 +1,15 @@
 <template>
   <div class="login">
     <h3>Sign In</h3>
+
     <label for="email">Email</label>
     <input type="email" name="email" v-model="email" placeholder="name@domain.com" required autocomplete="email">
-    <h5 class="error" :class="{ active: emailError }">Valid email required.</h5>
+    <h5 class="error" :class="{ active: emailError }">{{ emailErrorText }}</h5>
+
     <label for="password">Password</label>
-    <input type="password" name="password" v-model="password" placeholder="password" required autocomplete="password">
-    <h5 class="error" :class="{ active: passwordError }">Password must be at least 6 characters.</h5>
+    <input type="password" name="password" v-model="password" placeholder="Password" required autocomplete="password">
+    <h5 class="error" :class="{ active: passwordError }">{{ passwordErrorText }}</h5>
+
     <a class="button primary" @click="login">Sign In</a>
     <div class="switch">
       <a @click="switchAuth">create account</a>
@@ -24,7 +27,9 @@ export default {
       email: '',
       password: '',
       emailError: false,
-      passwordError: false
+      emailErrorText: 'Valid email required.',
+      passwordError: false,
+      passwordErrorText: 'Password must be at least 6 characters.'
     }
   },
   methods: {
@@ -32,20 +37,15 @@ export default {
       this.$emit('switched', '')
     },
     login () {
-      // error track
-      this.emailError = false
-      this.passwordError = false
-
-      if (!this.email || (this.email && !this.validateEmail())) {
-        // errors.push('Valid email required.')
-        this.emailError = true
-      } else {
+      if (!this.email || !this.validateEmail()) this.emailError = true
+      else {
+        this.emailErrorText = 'Valid email required.'
         this.emailError = false
       }
 
-      if (!this.password || (this.password && !this.validatePassword())) {
-        this.passwordError = true
-      } else {
+      if (!this.password || !this.validatePassword()) this.passwordError = true
+      else {
+        this.passwordErrorText = 'Password must be at least 6 characters.'
         this.passwordError = false
       }
 
@@ -57,8 +57,15 @@ export default {
             (user) => {
               this.$router.replace('dashboard')
             },
-            (err) => {
-              alert("it didn't work" + err.message)
+            (error) => {
+              console.log(error)
+              if (error.code.includes('user')) {
+                this.emailError = true
+                this.emailErrorText = error.message.replace('identifier', 'email')
+              } else if (error.code.includes('password')) {
+                this.passwordError = true
+                this.passwordErrorText = error.message
+              }
             }
           )
       }

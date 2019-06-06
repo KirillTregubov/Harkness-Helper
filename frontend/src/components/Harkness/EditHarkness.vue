@@ -1,12 +1,18 @@
 <template>
-<body class="focused">
+<body class="focused" v-if="!isLoading">
   <section class="container">
     <form>
-      <h1>Edit a Harkness Table</h1>
-      
+      <div class="title">
+        <div class="back" @click="goBack()">
+          <Icon name="icon-cheveron-left-circle" size="1.6" />
+          <h2>Go Back</h2>
+        </div>
+        <h1>Edit a Harkness Table</h1>
+      </div>
+
       <label for="harknessName">Harkness Name</label>
       <input type="text" name="harknessName" v-model="harkness.name" placeholder="An Original Harkness Title">
-      
+
       <label for="harknessName">Date Conducted</label>
       <input type="date" name="harknessDate" v-model="harkness.date">
 
@@ -20,46 +26,61 @@
       </div> -->
 
       <label for="absentStudents">Absent Students</label>
-      <div class="iconBeside" :key="student.id" v-for="student in students">
+      <div class="iconBeside" :key="student.id" v-for="student in harkness.students">
         <input type="text" id="studentName" v-model="student.name" placeholder="Kevin DesLauriers">
         <a @click="addAbsent(student)"><Icon name="icon-add-circle" size="2" /></a>
       </div>
 
-      <a class="button primary" @click="editHarkness()">Save Changes</a>
+      <a class="button primary" @click="saveChanges()">Save Changes</a>
     </form>
   </section>
+</body>
+<body id="loading" v-else>
+  <div class="loader">
+    <div></div>
+  </div>
 </body>
 </template>
 
 <script>
-import firebase from 'firebase'
+import fb from '@/firebase'
 import Icon from '@/components/Iconography/Icon.vue'
 
 export default {
   name: 'EditHarkness',
   data () {
     return {
-      class: ''
+      harkness: '',
+      isLoading: true
+    }
+  },
+  props: {
+    classKey: {
+      type: String,
+      default: null
+    },
+    harknessKey: {
+      type: String,
+      default: null
     }
   },
   methods: {
+    saveChanges () {
+      fb.updateHarkness(this.classKey, this.harknessKey, this.harkness)
+    },
     addStudent () {
       this.students.push('')
+    },
+    goBack () {
+      window.history.back()
     }
   },
   mounted () {
-    const uid = firebase.auth().currentUser.uid
-    firebase
-      .database()
-      .ref('users')
-      .child(uid)
-      .child('classes')
-      .child(this.selectedClass) // Vue says this is undefined
-      .child('students')
-      .once('value', snapshot => {
-        this.isLoading = false
-        this.students = snapshot.val()
-      })
+    if (!this.classKey || !this.harknessKey) this.$router.push('/*')
+    fb.getHarkness(this.classKey, this.harknessKey, snapshot => {
+      this.isLoading = false
+      this.harkness = snapshot.val()
+    })
   },
   components: {
     Icon

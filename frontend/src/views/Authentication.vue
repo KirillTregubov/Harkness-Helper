@@ -11,10 +11,8 @@
       >A web tool used to track harkness tables, designed with high school teachers in mind.</h2>
     </div>
     <div class="container">
-      <transition name="fade">
-        <Login @switched="switchAuth" v-if="view === 'login'" />
-        <Signup @switched="switchAuth" v-else/>
-      </transition>
+      <Login @switched="switchAuth" v-if="view === 'login'" />
+      <Signup @switched="switchAuth" v-else/>
     </div>
   </section>
 </body>
@@ -48,23 +46,6 @@ export default {
 </script>
 
 <style lang="scss">
-.fade-enter-active, .fade-leave-active {
-  transition: all 1s;
- }
-
-.fade-enter-active {
-  transition-delay: 0.75s;
-}
-
-.fade-enter, .fade-leave-active {
-  opacity: 0;
-}
-
-.fade-leave-active {
-  height: 0;
-  opacity: 0;
-}
-
 #authentication {
   height: 100vh;
   display: flex;
@@ -97,13 +78,15 @@ export default {
     }
 
     .subtitle {
-      font-size: var(--text-lg);
+      font-size: var(--text-md);
       color: var(--primary800);
       text-align: center;
+      margin-bottom: 1.5rem;
     }
   }
 
   .container {
+    max-height: 90vh;
     background-color: var(--neutral050);
     box-shadow: var(--shadow-deep-sm);
     border-radius: var(--border-radius);
@@ -112,6 +95,7 @@ export default {
 
     h3 {
       margin: 0 0 1em 0;
+      font-size: var(--text-lg);
     }
 
     label {
@@ -146,15 +130,65 @@ export default {
       margin-bottom: 1em;
       line-height: 20px;
       transition: all ease 0.5s;
+      font-size: var(--text-md);
 
       &:hover {
-        background-color: var(--neutral100);
+        background-color: var(--neutral100) !important;
+      }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus {
+        box-shadow: 0 0 0 50px var(--neutral100) inset;
+      }
+    }
+
+    .single-select-wrapper {
+      margin-bottom: 1rem;
+
+      input.search-input {
+        margin-bottom: 0;
+      }
+
+      ul {
+        max-height: 160px !important;
+        font-size: var(--text-md);
+
+        li.active {
+          background-color: var(--neutral100);
+        }
+      }
+    }
+
+    .split {
+      > :first-child {
+        margin-right: 0.5rem;
+      }
+      input {
+        width: calc(50% - 0.25rem);
       }
     }
 
     .switch {
       margin-left: 1em;
       display: inline;
+      user-select: none;
+      font-weight: var(--font-normal);
+
+      &:hover {
+        font-weight: var(--font-bold);
+      }
+    }
+  }
+}
+
+@include mq-max($width-xs) {
+  #authentication {
+    .container {
+      .switch {
+        display: block;
+        margin: 0.5rem 0 0 0;
+      }
     }
   }
 }
