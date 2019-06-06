@@ -9,6 +9,7 @@
   >
     <IconAddCircle v-if="name === 'icon-add-circle'" />
     <IconCloseCircle v-else-if="name === 'icon-close-circle'" />
+    <IconRemoveCircle v-else-if="name === 'icon-remove-circle'" />
     <IconCog v-else-if="name === 'icon-cog'" />
     <IconDoorEnter v-else-if="name === 'icon-door-enter'" />
     <IconDoorExit v-else-if="name === 'icon-door-exit'" />
@@ -17,12 +18,14 @@
     <IconMoodHappy v-else-if="name === 'icon-mood-happy'" />
     <IconMoodNeutral v-else-if="name === 'icon-mood-neutral'" />
     <IconMoodSad v-else-if="name === 'icon-mood-sad'" />
+    <IconUserGroup v-else-if="name === 'icon-user-group'" />
   </svg>
 </template>
 
 <script>
 import IconAddCircle from '@/assets/icons/icon-add-circle.vue'
 import IconCloseCircle from '@/assets/icons/icon-close-circle.vue'
+import IconRemoveCircle from '@/assets/icons/icon-remove-circle.vue'
 import IconCog from '@/assets/icons/icon-cog.vue'
 import IconDoorEnter from '@/assets/icons/icon-door-enter.vue'
 import IconDoorExit from '@/assets/icons/icon-door-exit.vue'
@@ -31,6 +34,7 @@ import IconEdit from '@/assets/icons/icon-edit.vue'
 import IconMoodHappy from '@/assets/icons/icon-mood-happy.vue'
 import IconMoodNeutral from '@/assets/icons/icon-mood-neutral.vue'
 import IconMoodSad from '@/assets/icons/icon-mood-sad.vue'
+import IconUserGroup from '@/assets/icons/icon-user-group.vue'
 
 export default {
   name: 'vue-svg',
@@ -47,6 +51,7 @@ export default {
   components: {
     IconAddCircle,
     IconCloseCircle,
+    IconRemoveCircle,
     IconCog,
     IconDoorEnter,
     IconDoorExit,
@@ -54,7 +59,8 @@ export default {
     IconEdit,
     IconMoodHappy,
     IconMoodNeutral,
-    IconMoodSad
+    IconMoodSad,
+    IconUserGroup
   }
 }
 </script>

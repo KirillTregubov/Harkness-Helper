@@ -2,44 +2,53 @@
 <body class="focused">
   <section class="container">
     <form>
-      <h1>Add a New Class</h1>
-      <p>Class name:</p>
-      <input v-model="newClass.name" type="text" name="className" placeholder="Computer Science" required>
-      <p>Course code:</p>
-      <input v-model="newClass.courseCode" type="text" name="courseCode" placeholder="ICS4U-A" required>
-      <p>Year:</p>
-      <p>
-        <input v-model="newClass.year" type="text" name="year" placeholder="2018-2019" required>
-      </p>
-      <p>Block:</p>
-      <input v-model="newClass.block" type="number" min="1" max="8" name="block" placeholder="2" required>
-      <p>Students (please enter names one per box): </p>
-      <div :key="student.id" v-for="student in newClass.studentsArray">
-        <input type="text" name="student" v-model="student.name" placeholder="Kevin DesLauriers">
+      <h1>Create a Class</h1>
+      <label for="className">Class Name</label>
+      <input type="text" name="className" v-model="newClass.name" placeholder="Computer Science">
+
+      <label for="courseCode">Course Code</label>
+      <input type="text" name="courseCode" v-model="newClass.courseCode" placeholder="ICS4Ua">
+
+      <label for="year">Academic Year</label>
+      <input type="text" name="year" v-model="newClass.year" placeholder="2019-2020">
+
+      <label for="block">Block</label>
+      <input type="number" name="block" v-model="newClass.block" min="1" max="8" placeholder="1">
+
+      <label for="students">Students</label>
+      <!-- one name per box : validation -->
+      <div class="iconBeside" :key="student.id" v-for="student in newClass.students">
+        <input type="text" name="student" v-model="student.name" placeholder="John Doe">
+        <!-- prohibit deleting last student : validation -->
+        <a @click="removeStudent(newClass.students.indexOf(student))"><Icon name="icon-remove-circle" size="2" /></a>
+        <a @click="addStudent(newClass.students.indexOf(student))"><Icon name="icon-add-circle" size="2" /></a>
       </div>
-      <a class="button" @click="addStudent()">Add Student</a>
+      
+      <a class="button primary" @click="createClass()">Create</a>
     </form>
-    <button @click="addClass()">Submit</button>
   </section>
 </body>
 </template>
 
 <script>
 import firebase from 'firebase'
+import Icon from '@/components/Iconography/Icon.vue'
+
 export default {
-  data: function () {
+  name: 'AddClass',
+  data () {
     return {
       newClass: {
         name: '',
         courseCode: '',
         block: '',
         year: '',
-        studentsArray: []
+        students: [{name: ''}]
       }
     }
   },
   methods: {
-    addClass: function () {
+    createClass () {
       const uid = firebase.auth().currentUser.uid
       const ref = firebase.database().ref('users').child(uid).child('classes')
       const classKey = ref.push().getKey()
@@ -48,29 +57,21 @@ export default {
         name: this.newClass.name,
         classCode: this.newClass.courseCode,
         block: this.newClass.block,
-        harknesses: [],
-        stats: [
-          {
-            classScore: 4,
-            kica: 'A',
-            title: 'knowledge'
-          },
-          {
-            classScore: 3,
-            kica: 'T',
-            title: 'thinking'
-          }
-        ],
-        students: this.newClass.studentsArray
+        students: this.newClass.students
       })
       this.$router.push('/dashboard')
     },
-    addStudent: function () {
-      this.newClass.studentsArray.push({
-        'name': 'student name',
-        'picture': 'random url'
+    addStudent (val) {
+      this.newClass.students.splice( val + 1, 0, {
+        'name': ''
       })
+    },
+    removeStudent (val) {
+      this.newClass.students.splice(val, 1)
     }
+  },
+  components: {
+    Icon
   }
 }
 </script>

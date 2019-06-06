@@ -4,9 +4,9 @@
       <h1>{{ selectedClass.name }}</h1>
         <router-link :to="{name: 'add-harkness', params: { classKey: selectedClass.key } }"><Icon name="icon-add-circle"/></router-link>
         <router-link :to="{name: 'edit-class', params: { classKey: selectedClass.key } }"><Icon name="icon-dots-vertical"/></router-link>
-        <!-- <router-link to="/new/harkness"><Icon name="icon-dots-vertical"/></router-link> -->
     </div>
     <div class="details">
+      <!-- change this -->
       <h3>{{ selectedClass.classCode }} | {{ selectedClass.year }} Year |<span v-if="selectedClass.block"> Block {{ selectedClass.block }}</span><span v-if="selectedClass.students"> | {{ selectedClass.students.length }} Students</span><span v-else> | No Students</span></h3>
     </div>
     <div class="list" v-if="selectedClass.harknesses">
@@ -14,10 +14,11 @@
       <ul>
           <li :key="harkness.id"  v-for="harkness in selectedClass.harknesses">
             <!-- harkness key or id -->
-            <router-link :to="{name: 'view-harkness', params: { harknessKey: harkness.key } }">
+            <router-link :to="{name: 'view-harkness', params: { classKey: selectedClass.key, harknessKey: harkness.key} }">
               <h4 class="name">{{ harkness.name }}</h4>
               <h4 class="date">{{ harkness.date }}</h4>
             </router-link>
+            <button type="button" id="deleteHarkness" @click="removeHarkness(harkness.key)">Delete</button>
           </li>
       </ul>
     </div>
@@ -25,7 +26,7 @@
       <h3>There are no recorded Harkness tables in this class. Create one to get started.</h3>
       <VueSVG name="missing" size="0.35"/>
     </div>
-    <div class="stats" v-if="Object.keys(selectedClass.stats).length > 0">
+    <div class="stats" v-if="selectedClass.stats">
       <h3>Statistics Overview</h3>
       <div class="table">
         <div class="head">
@@ -55,11 +56,18 @@
 <script>
 import VueSVG from '@/components/Iconography/VueSVG.vue'
 import Icon from '@/components/Iconography/Icon.vue'
+import fb from "@/firebase"
 
 export default {
   name: 'class-view',
   props: {
     selectedClass: Object
+  },
+  methods: {
+    removeHarkness: function(harknessKey) {
+      fb.deleteHarkness(this.selectedClass.key, harknessKey);
+      this.$router.go();
+    }
   },
   components: {
     VueSVG,
@@ -98,13 +106,13 @@ export default {
   }
 
   .title {
-    font-size: var(--text-xl);
     display: flex;
     flex-direction: row;
     align-items: center;
 
     h1 {
       margin: 0 1rem 0 0;
+      font-size: var(--text-2xl);
     }
 
     a {
@@ -126,7 +134,10 @@ export default {
   }
 
   .details {
-    font-size: var(--text-lg);
+    h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-bold);
+    }
   }
 
   .list {

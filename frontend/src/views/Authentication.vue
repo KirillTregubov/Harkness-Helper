@@ -65,10 +65,6 @@ export default {
   opacity: 0;
 }
 
-a {
-  user-select: none;
-}
-
 #authentication {
   height: 100vh;
   display: flex;

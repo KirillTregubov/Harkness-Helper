@@ -60,10 +60,10 @@ ul {
   --font-bold: 600;
   --font-black: 800;
   --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  // --font-size-text
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
 
   // Misc Layouts
   --border-radius: 0.5rem;
@@ -89,7 +89,7 @@ ul {
 
 * {
   box-sizing: border-box;
-  transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out, width 0, height 0;
 }
 
 svg {
@@ -104,20 +104,28 @@ svg {
 
 a.button {
   display: inline-block;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 14px;
-  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-  background: #fff;
-  border-radius: 4px;
-  transition: all 0.3s ease;
+  padding: 0.5rem 1rem;
+  box-shadow: var(--shadow-deep);
+  background: var(--neutral050);
+  color: var(--neutral900);
+  border-radius: var(--border-radius);
   text-decoration: none;
-  color: inherit;
+  margin: 0.25rem;
+  margin-left: 0;
+  user-select: none;
 
-  &:hover {
-    color: #5778f3;
-    // transform: translateY(-1px);
-    // box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+  &:hover, &:active {
+    background-color: var(--neutral200);
+    box-shadow: var(--shadow);
+  }
+
+  &.primary {
+    color: var(--neutral050);
+    background-color: var(--neutral800);
+
+    &:hover, &:active {
+      background-color: var(--neutral900);
+    }
   }
 }
 
@@ -159,24 +167,82 @@ a.button {
 }
 
 body.focused {
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 
   .container {
-     background-color: var(--neutral050);
+    background-color: var(--neutral050);
     box-shadow: var(--shadow-deep-sm);
     border-radius: var(--border-radius);
     max-width: $width-sm;
-    width: 100%;
+    width: 60vw;
+    min-width: 300px;
+    max-height: 90vh;
     padding: 2rem;
     margin-bottom: 1rem;
+    overflow: auto;
 
     h1 {
       margin-top: 0;
       margin-bottom: 1rem;
+      font-size: var(--text-2xl);
     }
+
+    label {
+      display: block;
+      color: var(--primary800);
+      margin-bottom: 0.25em;
+    }
+
+    h5.error {
+      display: none;
+      color: var(--primary600);
+      transition: all 500ms linear;
+      animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      margin: 0 0 1rem 0;
+
+      &.active {
+        display: block;
+      }
+    }
+
+    input {
+      box-sizing: border-box;
+      border: 1px solid #c2c2c2;
+      background-color: var(--neutral200);
+      box-shadow: 1px 1px 4px #ebebeb;
+      border-radius: 3px;
+      padding: 0.5rem;
+      width: 100%;
+      outline: none;
+      margin-bottom: 1.5em;
+      line-height: 20px;
+      transition: all ease 0.5s;
+
+      &:hover {
+        background-color: var(--neutral100);
+      }
+    }
+
+    .iconBeside {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5em;
+
+      input {
+        margin-bottom: 0;
+      }
+
+      svg {
+        margin-left: 1rem;
+        display: inline-block;
+      }
+    }
+    
   }
 }
 

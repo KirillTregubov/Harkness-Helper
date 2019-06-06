@@ -1,58 +1,56 @@
 <template>
-<body v-if="classKey !== null">
-  <form>
-    <h1>Add a New Harkness Table</h1>
-    <p>Harkness name:</p>
-    <input
-      type="text"
-      v-model="harkness.name"
-      name="harknessName"
-      placeholder="Romeo and Juliet Harkness"
-      required
-    >
-    <p>Date:</p>
-    <input type="date" v-model="harkness.date" name="harknessDate" required>
-    <p>Please enter the skills you will be assessing, or add more:</p>
-    <div :key="stat.id" v-for="stat in harkness.stats">
-      <span>
-        <input type="text" name="statName" v-model="stat.title" placeholder="Textual references">
-        <input type="text" name="kica" v-model="stat.kica" placeholder="K">
-      </span>
-    </div>
-    <a @click="addStat()">Add New Skill</a>
-    <p>Please select any absent students:</p>
-    <div :key="student.id" v-for="student in students">
-      <span>
+<body class="focused">
+  <section class="container">
+    <form>
+      <h1>Create a Harkness Table</h1>
+      
+      <label for="harknessName">Harkness Name</label>
+      <input type="text" name="harknessName" v-model="harkness.name" placeholder="An Original Harkness Title">
+
+      <label for="harknessName">Date Conducted</label>
+      <input type="date" name="harknessDate" v-model="harkness.date">
+
+      <!-- to be added later
+      <label for="statsAssessed">Skills Assessed</label>
+      <div class="iconBeside" :key="stat.id" v-for="stat in harkness.stats">
+          <input type="text" name="statName" v-model="stat.title" placeholder="Textual references">
+          <input type="text" name="statKica" v-model="stat.kica" placeholder="K">
+          <a @click="removeStat(newClass.students.indexOf(student))"><Icon name="icon-remove-circle" size="2" /></a>
+          <a @click="addStatl(newClass.students.indexOf(student))"><Icon name="icon-add-circle" size="2" /></a>
+      </div> -->
+
+      <label for="absentStudents">Absent Students</label>
+      <div class="iconBeside" :key="student.id" v-for="student in students">
         <input type="text" id="studentName" v-model="student.name" placeholder="Kevin DesLauriers">
-        <button @click="addAbsent()">Absent</button>
-      </span>
-    </div>
-    <!-- <a @click="addAbsent()">Add Absent Student</a>
-    <p>{{students}}</p>
-    <p>{{harkness.absentStudents}}</p> -->
-  </form>
-  <button @click="addHarkness()">Submit</button>
+        <a @click="addAbsent(student)"><Icon name="icon-add-circle" size="2" /></a>
+      </div>
+
+      <a class="button primary" @click="createHarkness()">Create</a>
+    </form>
+  </section>
 </body>
-<body v-else>CAN'T CREATE HARKNESS GO BACK</body>
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from "firebase";
+import fb from "@/firebase";
+import Icon from '@/components/Iconography/Icon.vue'
 
 export default {
-  data: function () {
+  name: 'AddHarkness',
+  data () {
     return {
       absentStudents: [],
       isLoading: false,
       students: [],
       harkness: {
-        name: '',
-        date: '',
-        key: '',
+        name: "",
+        date: "",
+        key: "",
         students: [],
         stats: []
       }
-    }
+    };
   },
   props: {
     classKey: {
@@ -60,49 +58,37 @@ export default {
       default: null
     }
   },
-  mounted: function () {
-    const uid = firebase.auth().currentUser.uid
-    firebase
-      .database()
-      .ref('users')
-      .child(uid)
-      .child('classes')
-      .child(this.classKey)
-      .child('students')
-      .once('value', snapshot => {
-        this.students = snapshot.val()
-      })
+  mounted () {
+    fb.getStudents(this.classKey, snapshot => {
+      this.students = snapshot.val();
+    });
   },
   methods: {
     removeAbsentStudents () {
-      this.harkness.students = this.students
-      var index
-      for (var i = 0; i < this.absentStudents.length; i++) {
-        index = this.harkness.students.indexOf(this.absentStudents[i])
-        this.harkness.students.splice(index)
+      this.harkness.students = this.students;
+      for (let i = 0; i < this.absentStudents.length; i++) {
+        let index = this.harkness.students.indexOf(this.absentStudents[i]);
+        if (index > -1) {
+          this.harkness.students.splice(index, 1);
+        }
       }
     },
-    addAbsent () {
-      this.absentStudents.push(document.getElementById('studentName').value)
-      console.log(this.absentStudents)
+    addAbsent (student) {
+      this.absentStudents.push(student);
+      console.log(this.absentStudents);
     },
-    addHarkness () {
-      // removeAbsentStudents()
-      const uid = firebase.auth().currentUser.uid
-      const ref = firebase
-        .database()
-        .ref('users')
-        .child(uid)
-        .child('classes')
-        .child(this.classKey)
-        .child('harknesses')
-      this.harkness.key = ref.push().getKey()
-      ref.child(this.harkness.key).set(this.harkness)
-      // this.$router.push('/assess') NEEDS TO LINK TO PAGE TO START ASSESSING HARKNESS
+    createHarkness () {
+      this.removeAbsentStudents();
+      console.log(this.harkness.students);
+      fb.newHarkness(this.classKey, this.harkness);
+      this.$router.push({name: "view-harkness", params:{classKey: this.classKey, harknessKey: this.harkness.key}})
     },
     addStat () {
-      this.harkness.stats.push('')
+      this.harkness.stats.push("");
     }
+  },
+  components: {
+    Icon
   }
-}
+};
 </script>

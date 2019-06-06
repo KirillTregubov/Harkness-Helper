@@ -12,10 +12,11 @@
         :class="selectedClass === item ? 'active' : ''"
         @click="selectItem(item)"
       >
-        <a>
-          <div class="primary">{{item.name}}</div>
-          <div class="secondary">{{item.classCode}}</div>
-        </a>
+          <Icon name="icon-user-group"/>
+          <div class="titles">
+            <div class="primary">{{item.name}}</div>
+            <div class="secondary">{{item.classCode}}</div>
+          </div>
         <button @click="deleteClass(item)">Delete</button>
       </li>
       <li>
@@ -40,9 +41,10 @@
 
 <script>
 import firebase from 'firebase'
-// import { reference } from '@/firebase'
+import fb from '@/firebase'
 import Header from '@/components/General/TheHeader.vue'
 import Class from '@/components/Class/Class.vue'
+import Icon from '@/components/Iconography/Icon.vue'
 
 export default {
   name: 'main-layout',
@@ -54,13 +56,7 @@ export default {
     }
   },
   mounted: function () {
-    const uid = firebase.auth().currentUser.uid
-    firebase
-      .database()
-      .ref('users')
-      .child(uid)
-      .child('classes')
-      .once('value', snapshot => {
+    fb.getClasses(snapshot => {
         this.isLoading = false
         this.classes = snapshot.val()
         if (this.classes) {
@@ -73,14 +69,7 @@ export default {
       this.selectedClass = item
     },
     deleteClass: function (item) {
-      const uid = firebase.auth().currentUser.uid
-      firebase
-        .database()
-        .ref('users')
-        .child(uid)
-        .child('classes')
-        .child(item.key)
-        .remove()
+      fb.deleteClass(item.key)
       this.$router.go()
     },
     logout: function () {
@@ -94,7 +83,8 @@ export default {
   },
   components: {
     Header,
-    Class
+    Class,
+    Icon
   }
 }
 </script>
@@ -137,9 +127,18 @@ export default {
           background-color: var(--neutral200);
           box-shadow: var(--shadow-inset);
         }
+
         &.active {
           background-color: var(--neutral200);
           box-shadow: var(--shadow-inset);
+        }
+
+        svg {
+          display: inline-block;
+        }
+
+        .titles {
+          display: inline-block;
         }
 
         .primary {
