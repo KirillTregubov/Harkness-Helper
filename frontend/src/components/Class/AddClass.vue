@@ -1,6 +1,6 @@
 <template>
 <body class="focused">
-  <section>
+  <section class="container">
     <form>
       <h1>Add a New Class</h1>
       <p>Class name:</p>

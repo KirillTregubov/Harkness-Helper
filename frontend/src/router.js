@@ -86,17 +86,17 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   console.log(to.path)
   if (requiresAuth && currentUser) {
-    console.log('logged in');
+    // console.log('logged in')
     next()
-  } else if (currentUser && to.path === "/") {
-    console.log('logged in trying to login');
+  } else if (currentUser && to.path === '/') {
+    // console.log('logged in trying to login')
     next('dashboard')
   } else if (!currentUser) {
-    console.log('need to log in')
+    // console.log('need to log in')
     if (to.path !== '/') next('')
     else next()
   } else {
-    console.log('404')
+    // console.log('404')
     if (to.path !== '/*') next('*')
     else next()
   }

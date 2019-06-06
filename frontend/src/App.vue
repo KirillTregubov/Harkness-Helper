@@ -164,7 +164,20 @@ body.focused {
   align-items: center;
   height: 100vh;
 
-  
+  .container {
+     background-color: var(--neutral050);
+    box-shadow: var(--shadow-deep-sm);
+    border-radius: var(--border-radius);
+    max-width: $width-sm;
+    width: 100%;
+    padding: 2rem;
+    margin-bottom: 1rem;
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+  }
 }
 
 // #app {
