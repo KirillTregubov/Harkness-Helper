@@ -26,10 +26,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    setClassKey: ( { commit }, payload) => {
+    setClassKey: ({ commit }, payload) => {
       commit('setClassKey', payload)
     },
-    setHarknessKey: ( { commit }, payload) => {
+    setHarknessKey: ({ commit }, payload) => {
       commit('setHarknessKey', payload)
     }
   },

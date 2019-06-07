@@ -38,7 +38,7 @@
       <VueSVG name="missing" size="0.35"/>
     </div>
   </section>
-  <section v-else>
+  <section id="classPage" v-else>
     <div class="empty">
       <h3>You don't have any classes. Create one to get started.</h3>
       <VueSVG name="missing" size="0.35"/>
@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import fb from '@/firebase'
 import { mapGetters, mapActions } from 'vuex'
 import VueSVG from '@/components/Iconography/VueSVG.vue'
 import Icon from '@/components/Iconography/Icon.vue'
@@ -65,16 +64,16 @@ export default {
     selectedClass: Object
   },
   methods: {
-    /*currentYear () {
+    /* currentYear () {
       var date = new Date()
       var year1 = date.getFullYear()
       var year2 = year1 + 1
 
       // if (selectedClass.year)
-    },*/
+    }, */
     openHarkness (key) {
-      this.setHarknessKey(key) 
-      this.$router.push({name: "view-harkness"})
+      this.setHarknessKey(key)
+      this.$router.push({ name: 'view-harkness' })
     },
     ...mapActions([
       'setHarknessKey'
@@ -96,8 +95,8 @@ export default {
   background-color: var(--neutral050);
   box-shadow: var(--shadow-deep-sm);
   border-radius: var(--border-radius);
-  max-width: $width-sm;
-  width: 100%;
+  max-width: $width-xs;
+  width: 80vw;
   padding: 2rem;
   margin-bottom: 1.5rem;
 
@@ -140,7 +139,7 @@ export default {
     }
 
     a {
-      margin: 0.25rem 0 0 0.5rem;
+      margin: 0 0 0 0.5rem;
       display: flex;
     }
 
@@ -162,6 +161,13 @@ export default {
       font-size: var(--text-lg);
       font-weight: var(--font-bold);
     }
+  }
+
+  .content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .list {

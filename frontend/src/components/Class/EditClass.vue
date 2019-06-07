@@ -52,7 +52,7 @@
 <script>
 import fb from '@/firebase'
 import Icon from '@/components/Iconography/Icon.vue'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'EditClass',
@@ -73,6 +73,8 @@ export default {
   },
   methods: {
     saveChanges () {
+      this.filterEmpty()
+
       if (!this.selectedClass.name) this.nameError = true
       else this.nameError = false
 
@@ -82,7 +84,7 @@ export default {
       if (!this.selectedClass.year) this.yearError = true
       else this.yearError = false
 
-      if (this.selectedClass.students[0].name == '') this.studentsError = true
+      if (this.selectedClass.students[0].name === '') this.studentsError = true
       else this.studentsError = false
 
       if (!this.nameError && !this.codeError && !this.yearError && !this.studentsError) {
@@ -90,16 +92,23 @@ export default {
         window.history.back()
       }
     },
+    filterEmpty () {
+      for (let i = 0; i < this.selectedClass.students.length; i++) {
+        let student = this.selectedClass.students[i]
+        if (student.name === '') {
+          this.selectedClass.students.splice(i, 1)
+          i--
+        }
+      }
+    },
     addStudent (val) {
-       this.studentsError = false
+      this.studentsError = false
       this.selectedClass.students.splice(val + 1, 0, {
         'name': ''
       })
     },
     removeStudent (val) {
-      if (this.selectedClass.students.length > 1)
-        this.selectedClass.students.splice(val, 1)
-      else this.studentsError = true
+      if (this.selectedClass.students.length > 1) { this.selectedClass.students.splice(val, 1) } else this.studentsError = true
     },
     deleteClass () {
       fb.deleteClass(this.getClassKey)

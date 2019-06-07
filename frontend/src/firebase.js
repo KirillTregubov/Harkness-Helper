@@ -1,6 +1,7 @@
-import firebase from 'firebase' // change
+import firebase from 'firebase/app'
+import 'firebase/database'
 
-const firebaseApp = firebase.initializeApp({
+const firebaseApp = firebase.initializeApp({ // eslint-disable-line no-unused-vars
   apiKey: 'AIzaSyBH9uQ6Nx-pYS0HcLrVtkWMigIzyKVWBjk',
   authDomain: 'harknesshelper-73eee.firebaseapp.com',
   databaseURL: 'https://harknesshelper-73eee.firebaseio.com',

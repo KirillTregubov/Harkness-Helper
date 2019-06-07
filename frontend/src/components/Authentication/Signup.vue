@@ -45,17 +45,19 @@
 
     <a class="button primary" @click="signup()">Sign Up</a>
     <div class="switch">
-      <a @click="switchAuth()">already have an account?</a>
+      <a @click="switchAuth">already have an account?</a>
     </div>
   </div>
   <div v-else>
     <h3>Account successfully created!</h3>
-    <a class="button primary" @click="switchAuth()">Sign In</a>
+    <a class="button primary" @click="switchAuth">Sign In</a>
   </div>
 </template>
 
 <script>
-import firebase from 'firebase'
+
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import fb from '@/firebase'
 import VueSingleSelect from 'vue-single-select'
 

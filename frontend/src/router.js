@@ -3,14 +3,14 @@ import Router from 'vue-router'
 import Layout from './views/Layout.vue'
 import Authentication from './views/Authentication.vue'
 import NotFound from './views/NotFound.vue'
-// change
 import Harkness from './components/Harkness/Harkness.vue'
 import AddHarkness from './components/Harkness/AddHarkness.vue'
 import EditHarkness from './components/Harkness/EditHarkness.vue'
 import AddClass from './components/Class/AddClass.vue'
 import EditClass from './components/Class/EditClass.vue'
 import About from './components/General/About.vue'
-import firebase from 'firebase' // change
+import firebase from 'firebase/app'
+import 'firebase/auth'
 
 Vue.use(Router)
 

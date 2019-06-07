@@ -44,9 +44,9 @@
 </template>
 
 <script>
-import Icon from '@/components/Iconography/Icon.vue'
 import fb from '@/firebase'
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
+import Icon from '@/components/Iconography/Icon.vue'
 
 export default {
   name: 'AddClass',
@@ -65,8 +65,13 @@ export default {
       studentsError: false
     }
   },
+  mounted () {
+    this.getYear()
+  },
   methods: {
     createClass () {
+      this.filterEmpty()
+
       if (!this.newClass.name) this.nameError = true
       else this.nameError = false
 
@@ -76,7 +81,7 @@ export default {
       if (!this.newClass.year) this.yearError = true
       else this.yearError = false
 
-      if (this.newClass.students[0].name == '') this.studentsError = true
+      if (this.newClass.students[0].name === '') this.studentsError = true
       else this.studentsError = false
 
       if (!this.nameError && !this.codeError && !this.yearError && !this.studentsError) {
@@ -85,6 +90,21 @@ export default {
         window.history.back()
       }
     },
+    filterEmpty () {
+      for (let i = 0; i < this.newClass.students.length; i++) {
+        let student = this.newClass.students[i]
+        if (student.name === '') {
+          this.newClass.students.splice(i, 1)
+          i--
+        }
+      }
+    },
+    getYear () {
+      let today = new Date()
+      var year1 = today.getFullYear()
+      var year2 = year1 + 1
+      this.newClass.year = year1 + '-' + year2
+    },
     addStudent (val) {
       this.studentsError = false
       this.newClass.students.splice(val + 1, 0, {
@@ -92,9 +112,7 @@ export default {
       })
     },
     removeStudent (val) {
-      if (this.newClass.students.length > 1)
-        this.newClass.students.splice(val, 1)
-      else this.studentsError = true
+      if (this.newClass.students.length > 1) { this.newClass.students.splice(val, 1) } else this.studentsError = true
     },
     goBack () {
       window.history.back()

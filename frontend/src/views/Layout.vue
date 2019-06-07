@@ -1,7 +1,7 @@
 <template>
 <body id="fullLayout" v-if="!isLoading">
   <header class="mainNav">
-    <Header/>
+    <Header :name="name"/>
   </header>
 
   <nav class="itemNav">
@@ -15,9 +15,8 @@
           <Icon name="icon-user-group" size="2"/>
           <div class="titles">
             <div class="primary">{{item.name}}</div>
-            <div class="secondary">{{item.classCode}}</div>
+            <div class="secondary">{{item.courseCode}}</div>
           </div>
-        <button @click="deleteClass(item)">Delete</button>
       </li>
       <router-link to="/new/class">
         <li>
@@ -30,9 +29,7 @@
     </ul>
   </nav>
 
-  <section class="itemContent">
-    <Class :selectedClass="selectedClass !== '' ? selectedClass : null"/>
-  </section>
+  <Class :selectedClass="selectedClass !== '' ? selectedClass : null"/>
 </body>
 <body id="loading" v-else>
   <div class="loader">
@@ -52,9 +49,12 @@ export default {
   name: 'main-layout',
   data () {
     return {
+      name: '',
       classes: [],
       selectedClass: '',
-      isLoading: true
+      isLoading: true,
+      headerLoading: true,
+      layoutLoading: true
     }
   },
   computed: {
@@ -66,16 +66,23 @@ export default {
   mounted () {
     this.setHarknessKey('')
 
+    fb.getUserData(snapshot => {
+      this.name = snapshot.val().firstName
+      this.headerLoading = false
+      if (!this.layoutLoading) this.isLoading = false
+    })
+
     fb.getClasses(snapshot => {
-      this.isLoading = false
+      this.layoutLoading = false
+      if (!this.headerLoading) this.isLoading = false
       this.classes = snapshot.val()
       if (this.classes) {
-        if (this.getClassKey === '' || !this.classes[this.getClassKey]) { 
-          this.selectedClass = this.classes[Object.keys(this.classes)[0]] 
+        if (this.getClassKey === '' || !this.classes[this.getClassKey]) {
+          this.selectedClass = this.classes[Object.keys(this.classes)[0]]
           this.setClassKey(this.selectedClass.key)
         } else {
-         this.selectedClass = this.classes[this.getClassKey]
-        } 
+          this.selectedClass = this.classes[this.getClassKey]
+        }
       }
     })
   },
@@ -83,10 +90,6 @@ export default {
     selectItem (item) {
       this.selectedClass = item
       this.setClassKey(item.key)
-    },
-    deleteClass (item) {
-      fb.deleteClass(item.key)
-      this.$router.go()
     },
     ...mapActions([
       'setClassKey',
@@ -125,6 +128,7 @@ export default {
     align-items: center;
     justify-content: center;
   }
+
   .itemNav {
     grid-area: nav;
     padding: 1.5rem;
@@ -163,6 +167,10 @@ export default {
 
         .titles {
           display: inline-block;
+
+          .secondary {
+            margin-top: 0.25rem;
+          }
         }
 
         .primary {
@@ -175,7 +183,7 @@ export default {
       }
     }
   }
-  .itemContent {
+  #classPage {
     grid-area: content;
     @include pronounced-content();
     max-height: 95vh;
@@ -183,7 +191,7 @@ export default {
     padding: 2rem;
     border-radius: var(--border-radius) 0 0 var(--border-radius);
     display: flex;
-    justify-content: center;
+    align-content: center;
   }
 }
 

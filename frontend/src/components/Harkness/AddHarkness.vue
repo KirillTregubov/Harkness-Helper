@@ -53,7 +53,7 @@ import Icon from '@/components/Iconography/Icon.vue'
 
 export default {
   name: 'AddHarkness',
-  data() {
+  data () {
     return {
       absentStudents: [],
       students: [],
@@ -73,7 +73,7 @@ export default {
   computed: {
     ...mapGetters(['getClassKey', 'getHarknessKey'])
   },
-  mounted() {
+  mounted () {
     if (!this.getClassKey) this.$router.push('/*')
     fb.getStudents(this.getClassKey, snapshot => {
       this.isLoading = false
@@ -82,14 +82,14 @@ export default {
     })
   },
   methods: {
-    removeAbsentStudents() {
+    removeAbsentStudents () {
       if (this.absentStudents.length > 0) {
-        this.harkness.students = this.students.filter(student => !this.absentStudents.includes(student)).map(student => ({ "name": student}))
+        this.harkness.students = this.students.filter(student => !this.absentStudents.includes(student)).map(student => ({ 'name': student }))
       } else {
-        this.harkness.students = this.students.map(student => ({ "name": student }))
+        this.harkness.students = this.students.map(student => ({ 'name': student }))
       }
     },
-    createHarkness() {
+    createHarkness () {
       this.removeAbsentStudents()
 
       if (!this.harkness.name) this.nameError = true
@@ -107,7 +107,7 @@ export default {
         this.$router.push('/view/harkness')
       }
     },
-    getDate() {
+    getDate () {
       let today = new Date()
       var dd = today.getDate()
       if (dd < 10) dd = '0' + dd
@@ -116,14 +116,14 @@ export default {
       var yyyy = today.getFullYear()
       this.harkness.date = yyyy + '-' + mm + '-' + dd
     },
-    addStat() {
+    addStat () {
       this.harkness.stats.push('')
     },
-    validateDate: function() {
-      var re = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/
+    validateDate: function () {
+      var re = /^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$/
       return re.test(this.harkness.date)
     },
-    goBack() {
+    goBack () {
       window.history.back()
     },
     ...mapActions(['setHarknessKey'])

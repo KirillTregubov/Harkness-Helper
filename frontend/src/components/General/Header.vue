@@ -11,10 +11,10 @@
           <h1>About Us</h1>
         </li>
       </router-link>
-      <li>
+      <!-- <li>
         <Icon name="icon-cog" size="1.6875"/>
         <h1>Settings</h1>
-      </li>
+      </li> -->
       <li @click="logout()">
         <Icon name="icon-door-exit" size="1.6875"/>
         <h1>Log Out</h1>
@@ -24,36 +24,29 @@
 </template>
 
 <script>
-import Icon from '@/components/Iconography/Icon.vue';
-import firebase from 'firebase';
-import fb from '@/firebase';
+import Icon from '@/components/Iconography/Icon.vue'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 
 export default {
   name: 'main-header',
-  data() {
-    return {
-      name: ''
-    };
-  },
   components: {
     Icon
   },
-  mounted() {
-    fb.getUserData(snapshot => {
-    this.name = snapshot.val().firstName;
-    });
+  props: {
+    name: String
   },
   methods: {
-    logout() {
+    logout () {
       firebase
         .auth()
         .signOut()
         .then(() => {
-          this.$router.go('');
-        });
+          this.$router.go('')
+        })
     }
   }
-};
+}
 </script>
 
 <style lang="scss">
@@ -71,7 +64,7 @@ nav.main {
       display: flex;
       align-items: center;
       margin-left: 1.5rem;
-      padding: 0.175rem 0.75rem 0.3rem 0.5rem;
+      padding: 0.3rem 0.75rem 0.3rem 0.5rem;
       border-radius: var(--border-radius);
       user-select: none;
 

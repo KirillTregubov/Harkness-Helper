@@ -1,8 +1,8 @@
 {
-    "name": "Project Harkness Edsby Tool",
+    "name": "Harkness Helper Edsby Tool",
     "short_name": "Harkness Tool",
-    "description": "A tool used to fetch data from Edsby Class pages of schools supported by the Project Harkness service.",
-    "author": "Project Harkness Team",
+    "description": "A tool used to fetch data from Edsby Class pages of supported schools to be used in the Harkness Helper.",
+    "author": "Harkness Helper Team",
     "version": "1.0",
     "manifest_version": 2,
     "permissions": [

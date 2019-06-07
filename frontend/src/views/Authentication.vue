@@ -3,12 +3,10 @@
   <section>
     <div class="heading">
       <div class="title">
-        <img class="logo" src="@/assets/images/logo.png" alt="Project Harkness Logo">
-        <h1 class="name">Project Harkness</h1>
+        <img class="logo" src="@/assets/images/logo.png" alt="Harkness Helper Logo">
+        <h1 class="name">Harkness Helper</h1>
       </div>
-      <h2
-        class="subtitle"
-      >A web tool used to track harkness tables, designed with high school teachers in mind.</h2>
+      <h2 class="subtitle">A web tool used to track harkness tables, designed with high school teachers in mind.</h2>
     </div>
     <div class="container">
       <Login @switched="switchAuth" v-if="view === 'login'" />

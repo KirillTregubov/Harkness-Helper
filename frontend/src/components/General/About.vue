@@ -10,7 +10,7 @@
     </div>
     <div class="subtitle">
       <h2 class="authors">Created by Alex Alexiev, Kirill Tregubov, Charlotte Volk</h2>
-      <h2 class="version">Currently using v1.0</h2>
+      <h2 class="version">Currently v1.0</h2>
     </div>
     <h3>Supported Schools</h3>
     <ol :key="school.id" v-for="school in schools">
@@ -18,7 +18,7 @@
     </ol>
     <h3>About the Tool</h3>
     <div class="text">
-      <p>Project Harkness is a Harkness table tracking tool made by high school seniors for our ICS4U course.</p>
+      <p>Harkness Helper is a Harkness table tracking tool made by high school seniors for our ICS4U course.</p>
       <p>This tool allows high school teachers from any subject area to track Harkness tables for each of their classes.</p>
       <p>Teachers can customize tracking by adding the skills they want to assess for each Harkness table.</p>
       <p>Student marks (in the format of levels from 1 to 4) can be inputted during the Harkness table, and class averages are accessible to the teacher.</p>
@@ -28,7 +28,7 @@
     <div class="contactContainer">
       <div class="contact" :key="author.id" v-for="author in authors">
         <h4 class="name">{{ author.name }}</h4>
-        <a class="email" :href="'mailto:' + author.email + '?subject=Inquiry regarding Project Harkness'">{{ author.email }}</a>
+        <a class="email" :href="'mailto:' + author.email + '?subject=Inquiry regarding Harkness Helper'">{{ author.email }}</a>
       </div>
     </div>
   </section>

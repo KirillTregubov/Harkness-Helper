@@ -124,7 +124,7 @@ a, li, label, .title, .subtitle, #authentication h3 {
 }
 
 a.button {
-  display: inline-block;
+  display: block;
   padding: 0.5rem 1rem 0.5rem 0.8rem;
   box-shadow: var(--shadow-deep-sm);
   background: var(--neutral050);
@@ -134,6 +134,11 @@ a.button {
   margin: 0.25rem;
   margin-left: 0;
   user-select: none;
+  display: inline-flex;
+
+  > span {
+    margin: 0 auto;
+  }
 
   svg {
     margin-right: 0.3rem;
@@ -205,7 +210,7 @@ a.button {
 }
 
 #loading {
-  background-image: var(--bg-image);
+  // background-image: var(--bg-image);
   height: 100vh;
   display: flex;
   align-items: center;
@@ -341,7 +346,7 @@ body.focused {
       line-height: 20px;
       transition: all ease 0.5s;
       font-size: var(--text-md);
-      
+
       &.multiselect__input {
         border: 0px !important;
         box-shadow: none !important;
@@ -370,7 +375,7 @@ body.focused {
         display: inline-block;
       }
     }
-    
+
     .buttons {
       margin-top: 2rem;
     }
@@ -401,7 +406,7 @@ body.informational {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
 
       .back {
         display: flex;
@@ -442,6 +447,7 @@ body.informational {
 
     .subtitle {
       text-align: right;
+      margin-bottom: 2rem;
 
       h2 {
         margin: 0;
@@ -463,7 +469,7 @@ body.informational {
 
       li {
         counter-increment: counter;
-        
+
         &::before {
           content: counter(counter) ". ";
           color: var(--primary700);
@@ -528,7 +534,7 @@ body.informational {
   overflow: fixed !important;
   position: absolute !important;
   z-index: 100 !important;
-  
+
 }
 
 .multiselect__input {

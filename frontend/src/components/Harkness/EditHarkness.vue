@@ -47,8 +47,8 @@
 
 <script>
 import fb from '@/firebase'
-import { mapGetters, mapActions } from 'vuex'
-import Multiselect from 'vue-multiselect';
+import { mapGetters } from 'vuex'
+import Multiselect from 'vue-multiselect'
 import Icon from '@/components/Iconography/Icon.vue'
 
 export default {
@@ -88,19 +88,19 @@ export default {
         window.history.back()
       }
     },
-    deleteHarkness() {
+    deleteHarkness () {
       fb.deleteHarkness(this.getClassKey, this.getHarknessKey)
       this.$router.push('/dashboard')
     },
-    removeAbsentStudents() {
+    removeAbsentStudents () {
       if (this.absentStudents.length > 0) {
-        this.harkness.students = this.students.filter(student => !this.absentStudents.includes(student)).map(student => ({ "name": student}))
+        this.harkness.students = this.students.filter(student => !this.absentStudents.includes(student)).map(student => ({ 'name': student }))
       } else {
-        this.harkness.students = this.students.map(student => ({ "name": student }))
+        this.harkness.students = this.students.map(student => ({ 'name': student }))
       }
     },
-    validateDate: function() {
-      var re = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/
+    validateDate: function () {
+      var re = /^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$/
       return re.test(this.harkness.date)
     },
     goBack () {
