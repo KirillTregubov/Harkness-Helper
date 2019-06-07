@@ -1,91 +1,92 @@
 <template>
-  <div id="classPage" v-if="!selectedClass.isEmpty">
+  <section id="classPage" v-if="selectedClass">
     <div class="title">
       <h1>{{ selectedClass.name }}</h1>
-        <router-link :to="{name: 'add-harkness', params: { classKey: selectedClass.key } }"><Icon name="icon-add-circle"/></router-link>
-        <router-link :to="{name: 'edit-class', params: { classKey: selectedClass.key } }"><Icon name="icon-dots-vertical"/></router-link>
+        <router-link to="/new/harkness"><Icon name="icon-add-circle"/></router-link>
+        <router-link to="/edit/class"><Icon name="icon-dots-vertical"/></router-link>
     </div>
+
     <div class="details">
-      <!-- change this -->
-      <h3>{{ selectedClass.classCode }} | {{ selectedClass.year }} Year |<span v-if="selectedClass.block"> Block {{ selectedClass.block }}</span><span v-if="selectedClass.students"> | {{ selectedClass.students.length }} Students</span><span v-else> | No Students</span></h3>
+      <h3>{{ selectedClass.courseCode }} | {{ selectedClass.year }} Academic Year <!--<span v-if="currentYear()">{{ selectedClass.year }} Academic Year</span><span v-else></span> -->
+      <span v-if="selectedClass.block"> | Block {{ selectedClass.block }}</span> | {{ selectedClass.students.length }} Student<span v-if="selectedClass.students.length > 1">s</span></h3>
     </div>
-    <div class="list" v-if="selectedClass.harknesses">
-      <h3>Previous Harkness Tables</h3>
-      <ul>
-          <li :key="harkness.id"  v-for="harkness in selectedClass.harknesses">
-            <!-- harkness key or id -->
-            <router-link :to="{name: 'view-harkness', params: { classKey: selectedClass.key, harknessKey: harkness.key} }">
-              <h4 class="name">{{ harkness.name }}</h4>
-              <h4 class="date">{{ harkness.date }}</h4>
-            </router-link>
-            <button type="button" id="deleteHarkness" @click="removeHarkness(harkness.key)">Delete</button>
-          </li>
-      </ul>
+
+    <div class="content" v-if="selectedClass.harknesses">
+      <div class="list" v-if="selectedClass.harknesses">
+        <h3>Previous Harkness Tables</h3>
+        <ul>
+            <li :key="harkness.id"  v-for="harkness in selectedClass.harknesses">
+              <!-- harkness key or id -->
+              <a @click="openHarkness(harkness.key)">
+                <h4 class="name">{{ harkness.name }}</h4>
+                <h4 class="date">{{ harkness.date }}</h4>
+              </a>
+              <!-- <router-link to="/view/harkness" @click="console.log(harkness.key)">
+                <h4 class="name">{{ harkness.name }}</h4>
+                <h4 class="date">{{ harkness.date }}</h4>
+              </router-link> -->
+            </li>
+        </ul>
+      </div>
+
+      <div class="stats">
+        <ClassStats :selectedClass="selectedClass"/>
+      </div>
     </div>
     <div class="empty" v-else>
       <h3>There are no recorded Harkness tables in this class. Create one to get started.</h3>
       <VueSVG name="missing" size="0.35"/>
     </div>
-    <div class="stats" v-if="selectedClass.harknesses">
-      <div id="averageKICA">
-        <span>K: {{KICAavg.K}}</span>
-        <span>I: {{KICAavg.I}}</span>
-        <span>C: {{KICAavg.C}}</span>
-        <span>A: {{KICAavg.A}}</span>
-
-      </div>
-      <div id="randomComments">
-        <!-- <p> Mahrh.random(comments0) </p> -->
-      </div>
+  </section>
+  <section v-else>
+    <div class="empty">
+      <h3>You don't have any classes. Create one to get started.</h3>
+      <VueSVG name="missing" size="0.35"/>
     </div>
-    <div class="empty" v-else>
-      <h3>You have no previous stats for this class. Please create a new Harkness table above to start tracking stats.</h3>
-      <VueSVG name="missing" size="0.4"/>
-    </div>
-  </div>
-  <div id="classPage" class="empty" v-else>
-    <h3>You do not have any classes yet. Please create a class above.</h3>
-  </div>
+  </section>
 </template>
 
 <script>
+import fb from '@/firebase'
+import { mapGetters, mapActions } from 'vuex'
 import VueSVG from '@/components/Iconography/VueSVG.vue'
 import Icon from '@/components/Iconography/Icon.vue'
-import fb from '@/firebase'
+import ClassStats from '@/components/Class/ClassStats.vue'
 
 export default {
-  data () {
-    return {
-      KICAavg: ''
-    }
-  },
   name: 'class-view',
+  computed: {
+    ...mapGetters([
+      'getClassKey',
+      'getHarknessKey'
+    ])
+  },
   props: {
     selectedClass: Object
   },
   methods: {
-    removeHarkness: function (harknessKey) {
-      fb.deleteHarkness(this.selectedClass.key, harknessKey)
-      this.$router.go()
-    },
-    computeKICAavg () {
-      let KICAsum = { 'K': 0, 'I': 0, 'C': 0, 'A': 0 }
-      let KICAcounter = { 'K': 0, 'I': 0, 'C': 0, 'A': 0 }
+    /*currentYear () {
+      var date = new Date()
+      var year1 = date.getFullYear()
+      var year2 = year1 + 1
 
-      // for loops are done normally, not this way
-      // for (harknessTable in this.selectedClass.harknesses) {
-      //   for (student in harknessTable.students) {
-      //     console.log(student)
-      //   }
-      // }
-    }
+      // if (selectedClass.year)
+    },*/
+    openHarkness (key) {
+      this.setHarknessKey(key) 
+      this.$router.push({name: "view-harkness"})
+    },
+    ...mapActions([
+      'setHarknessKey'
+    ])
   },
   mounted () {
-    if (this.selectedClass.harknesses) this.computeKICAavg()
+
   },
   components: {
     VueSVG,
-    Icon
+    Icon,
+    ClassStats
   }
 }
 </script>
@@ -98,11 +99,25 @@ export default {
   max-width: $width-sm;
   width: 100%;
   padding: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 
   h3 {
     margin-top: 0;
     margin-bottom: 1rem;
+    font-size: var(--text-lg);
+  }
+}
+
+.empty {
+  padding: 2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
     font-size: var(--text-lg);
   }
 }
@@ -112,21 +127,16 @@ export default {
   flex-direction: column;
   align-items: center;
 
-  .empty {
-    @include container();
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
   .title {
     display: flex;
     flex-direction: row;
     align-items: center;
+    user-select: auto;
 
     h1 {
       margin: 0 1rem 0 0;
       font-size: var(--text-2xl);
+      font-weight: var(--font-black);
     }
 
     a {
@@ -160,6 +170,7 @@ export default {
     ul {
       li {
         padding: 0.5rem;
+
         &:hover {
           background-color: var(--neutral200);
           border-radius: var(--border-radius);

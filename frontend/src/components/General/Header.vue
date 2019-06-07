@@ -3,11 +3,14 @@
     <ul>
       <li class="left static">
         <h1>Hello, {{ name }}</h1>
-        <Icon name="icon-user-circle" size="1.6875"/></li>
-      <li>
-        <Icon name="icon-information" size="1.6875"/>
-        <h1>About Us</h1>
+        <Icon name="icon-user-circle" size="1.6875"/>
       </li>
+      <router-link to="/about">
+        <li>
+          <Icon name="icon-information" size="1.6875"/>
+          <h1>About Us</h1>
+        </li>
+      </router-link>
       <li>
         <Icon name="icon-cog" size="1.6875"/>
         <h1>Settings</h1>
@@ -21,34 +24,36 @@
 </template>
 
 <script>
-import Icon from '@/components/Iconography/Icon.vue'
-import firebase from 'firebase'
-import fb from '@/firebase'
+import Icon from '@/components/Iconography/Icon.vue';
+import firebase from 'firebase';
+import fb from '@/firebase';
 
 export default {
   name: 'main-header',
-  data () {
+  data() {
     return {
       name: ''
-    }
+    };
   },
   components: {
     Icon
   },
-  mounted () {
-    fb.getUserData(snapshot => { this.name = snapshot.val().name })
+  mounted() {
+    fb.getUserData(snapshot => {
+    this.name = snapshot.val().firstName;
+    });
   },
   methods: {
-    logout () {
+    logout() {
       firebase
         .auth()
         .signOut()
         .then(() => {
-          this.$router.go('')
-        })
+          this.$router.go('');
+        });
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -95,7 +100,7 @@ nav.main {
       }
 
       svg {
-        margin: 0.125em 0.25rem 0 0;
+        margin: 0 0.25rem 0 0;
 
         &.standalone {
           margin-left: 0;
@@ -112,5 +117,4 @@ nav.main {
     }
   }
 }
-
 </style>

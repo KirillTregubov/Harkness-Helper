@@ -8,6 +8,7 @@
     :height="size + 'rem'"
   >
     <IconAddCircle v-if="name === 'icon-add-circle'" />
+    <IconCheck v-if="name === 'icon-check'" />
     <IconCheveronLeftCircle v-else-if="name === 'icon-cheveron-left-circle'" />
     <IconCloseCircle v-else-if="name === 'icon-close-circle'" />
     <IconRemoveCircle v-else-if="name === 'icon-remove-circle'" />
@@ -20,6 +21,7 @@
     <IconMoodHappy v-else-if="name === 'icon-mood-happy'" />
     <IconMoodNeutral v-else-if="name === 'icon-mood-neutral'" />
     <IconMoodSad v-else-if="name === 'icon-mood-sad'" />
+    <IconTrash v-else-if="name === 'icon-trash'" />
     <IconUserCircle v-else-if="name === 'icon-user-circle'" />
     <IconUserGroup v-else-if="name === 'icon-user-group'" />
   </svg>
@@ -27,6 +29,7 @@
 
 <script>
 import IconAddCircle from '@/assets/icons/icon-add-circle.vue'
+import IconCheck from '@/assets/icons/icon-check.vue'
 import IconCheveronLeftCircle from '@/assets/icons/icon-cheveron-left-circle.vue'
 import IconCloseCircle from '@/assets/icons/icon-close-circle.vue'
 import IconRemoveCircle from '@/assets/icons/icon-remove-circle.vue'
@@ -39,6 +42,7 @@ import IconInformation from '@/assets/icons/icon-information.vue'
 import IconMoodHappy from '@/assets/icons/icon-mood-happy.vue'
 import IconMoodNeutral from '@/assets/icons/icon-mood-neutral.vue'
 import IconMoodSad from '@/assets/icons/icon-mood-sad.vue'
+import IconTrash from '@/assets/icons/icon-trash.vue'
 import IconUserCircle from '@/assets/icons/icon-user-circle.vue'
 import IconUserGroup from '@/assets/icons/icon-user-group.vue'
 
@@ -56,6 +60,7 @@ export default {
   },
   components: {
     IconAddCircle,
+    IconCheck,
     IconCheveronLeftCircle,
     IconCloseCircle,
     IconRemoveCircle,
@@ -68,6 +73,7 @@ export default {
     IconMoodHappy,
     IconMoodNeutral,
     IconMoodSad,
+    IconTrash,
     IconUserCircle,
     IconUserGroup
   }

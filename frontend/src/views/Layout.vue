@@ -31,7 +31,7 @@
   </nav>
 
   <section class="itemContent">
-    <Class :selectedClass="selectedClass !== '' ? selectedClass : {isEmpty: true}"/>
+    <Class :selectedClass="selectedClass !== '' ? selectedClass : null"/>
   </section>
 </body>
 <body id="loading" v-else>
@@ -43,6 +43,7 @@
 
 <script>
 import fb from '@/firebase'
+import { mapGetters, mapActions } from 'vuex'
 import Header from '@/components/General/Header.vue'
 import Class from '@/components/Class/Class.vue'
 import Icon from '@/components/Iconography/Icon.vue'
@@ -56,23 +57,41 @@ export default {
       isLoading: true
     }
   },
+  computed: {
+    ...mapGetters([
+      'getClassKey',
+      'getHarknessKey'
+    ])
+  },
   mounted () {
+    this.setHarknessKey('')
+
     fb.getClasses(snapshot => {
       this.isLoading = false
       this.classes = snapshot.val()
       if (this.classes) {
-        this.selectedClass = this.classes[Object.keys(this.classes)[0]]
+        if (this.getClassKey === '' || !this.classes[this.getClassKey]) { 
+          this.selectedClass = this.classes[Object.keys(this.classes)[0]] 
+          this.setClassKey(this.selectedClass.key)
+        } else {
+         this.selectedClass = this.classes[this.getClassKey]
+        } 
       }
     })
   },
   methods: {
     selectItem (item) {
       this.selectedClass = item
+      this.setClassKey(item.key)
     },
     deleteClass (item) {
       fb.deleteClass(item.key)
       this.$router.go()
-    }
+    },
+    ...mapActions([
+      'setClassKey',
+      'setHarknessKey'
+    ])
   },
   components: {
     Header,
