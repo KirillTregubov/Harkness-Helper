@@ -59,13 +59,12 @@ export default {
   .heading {
     .title {
       display: flex;
-      align-content: flex-end;
+      align-items: center;
       justify-content: center;
     }
 
     .logo {
       display: inline-flex;
-      align-self: flex-end;
       width: 1.8em;
       margin-right: 0.5rem;
     }
