@@ -1,5 +1,5 @@
 <template>
-  <div class="sign-up">
+  <div class="sign-up" v-if="!signupSuccess">
     <h3>Create a New Account</h3>
 
     <label for="name">Full Name</label>
@@ -48,6 +48,10 @@
       <a @click="switchAuth()">already have an account?</a>
     </div>
   </div>
+  <div v-else>
+    <h3>Account successfully created!</h3>
+    <a class="button primary" @click="switchAuth()">Sign In</a>
+  </div>
 </template>
 
 <script>
@@ -84,6 +88,7 @@ export default {
         'Saskatchewan',
         'Yukon Territory'
       ],
+      signupSuccess: false,
       nameError: false,
       emailError: false,
       emailErrorText: 'Valid email required.',
@@ -132,6 +137,8 @@ export default {
           .auth()
           .createUserWithEmailAndPassword(this.email, this.password).then(() => {
             fb.addUser(firebase.auth().currentUser.uid, this.userData)
+            // this.$emit('switched', 'login')
+            this.signupSuccess = true
           }).catch(error => {
             if (error.includes('email')) {
               this.emailError = true

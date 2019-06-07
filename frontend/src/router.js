@@ -9,6 +9,7 @@ import AddHarkness from './components/Harkness/AddHarkness.vue'
 import EditHarkness from './components/Harkness/EditHarkness.vue'
 import AddClass from './components/Class/AddClass.vue'
 import EditClass from './components/Class/EditClass.vue'
+import About from './components/General/About.vue'
 import firebase from 'firebase' // change
 
 Vue.use(Router)
@@ -23,6 +24,11 @@ const router = new Router({
       component: Authentication
     },
     {
+      path: '*',
+      name: '404',
+      component: NotFound
+    },
+    {
       path: '/dashboard',
       name: 'layout',
       component: Layout,
@@ -34,7 +40,6 @@ const router = new Router({
       path: '/view/harkness',
       name: 'view-harkness',
       component: Harkness,
-      props: true,
       meta: {
         requiresAuth: true
       }
@@ -51,7 +56,6 @@ const router = new Router({
       path: '/new/harkness',
       name: 'add-harkness',
       component: AddHarkness,
-      props: true,
       meta: {
         requiresAuth: true
       }
@@ -60,7 +64,6 @@ const router = new Router({
       path: '/edit/class',
       name: 'edit-class',
       component: EditClass,
-      props: true,
       meta: {
         requiresAuth: true
       }
@@ -69,15 +72,17 @@ const router = new Router({
       path: '/edit/harkness',
       name: 'edit-harkness',
       component: EditHarkness,
-      props: true,
       meta: {
         requiresAuth: true
       }
     },
     {
-      path: '*',
-      name: '404',
-      component: NotFound
+      path: '/about',
+      name: 'about',
+      component: About,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 })

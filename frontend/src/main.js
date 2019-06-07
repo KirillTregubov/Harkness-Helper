@@ -4,6 +4,7 @@ import router from './router'
 import { rtdbPlugin } from 'vuefire'
 import firebase from 'firebase'
 import { db } from '@/firebase' // eslint-disable-line no-unused-vars
+import store from './store'
 
 Vue.config.productionTip = false
 
@@ -15,6 +16,7 @@ firebase.auth().onAuthStateChanged(() => {
   if (!app) {
     app = new Vue({
       router,
+      store,
       render: h => h(App)
     }).$mount('#app')
   }

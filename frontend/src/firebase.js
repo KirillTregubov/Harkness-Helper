@@ -157,6 +157,7 @@ export default {
       .child('harknesses')
     harkness.key = ref.push().getKey()
     ref.child(harkness.key).set(harkness)
+    return harkness.key
   },
   logout () {
     firebase
